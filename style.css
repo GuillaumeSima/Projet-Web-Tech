@@ -11,6 +11,16 @@ body{
 }
 
 .container{
+    position: relative;
+}
+
+.partOne{
+ background-color: chartreuse;
+ width: 80%;
+ height: auto;
+}
+
+.story{
    max-width: 20%;
     background-color: white;
     padding: 10px;
@@ -39,4 +49,10 @@ body{
     border-color: black;
 }
 
+
+.object{
+    width: 10%;
+    height: auto;
+    background-color: brown;
+}
 
