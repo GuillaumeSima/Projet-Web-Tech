@@ -34,6 +34,9 @@ body{
    
 }
 
+#location{
+    color:purple;
+}
 .btn-grid{
     display: grid;
     grid-template-columns: repeat(2,auto);
