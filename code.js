@@ -1,11 +1,16 @@
 const textElement =document.getElementById('text')
 const optionElement =document.getElementById('option-buttons')
+const objectElement=document.getElementById('menu-objects')
+var btn =document.querySelector('.button-objects');
+var nav=document.querySelector('.nav'); 
+
 
 var state={}
 
 function startGame(){
 
     state={}
+     
     //display the first text 
     showTextNode(1)
 }
@@ -18,6 +23,10 @@ function showTextNode(textNodeIndex){
     while (optionElement.firstChild){
         optionElement.removeChild(optionElement.firstChild)
     }
+    //remove all objects 
+    while(objectElement.firstChild){
+        objectElement.removeChild(objectElement.firstChild)
+    }
     textNode.options.forEach(option => {
         if(showOption(option)){
             const button =document.createElement('button')
@@ -29,6 +38,21 @@ function showTextNode(textNodeIndex){
         }
         
     });
+  
+   for(let i in state){
+
+       if (state[i])
+       {   
+           let attribut= document.createElement('a')
+        let newContent=document.createTextNode(i)
+          attribut.appendChild(newContent)
+         objectElement.appendChild(attribut)
+
+       }
+   }
+
+    
+  
 
 }
 
@@ -43,6 +67,8 @@ function selectOption (option){
     }
     //edit var state
     state =Object.assign(state, option.setState)
+    
+   
     showTextNode(nextTextNodeId)
 }
 
@@ -69,13 +95,13 @@ const textNodes=[
             {
                 text:'Tadre the goo for a sword',
                 requiredState:(currentState)=>currentState.blueGoo,
-                setState:{blueGoo:false, sword:true},
+                setState:{blueGoo:false, sword:true,choclate:true},
                 nextText:3
             },
             {
                 text:'Tadre the goo for a shield',
                 requiredState:(currentState)=>currentState.blueGoo,
-                setState:{blueGoo:false, shield:true},
+                setState:{blueGoo:false, shield:true, choclate:false},
                 nextText:3
             },
            
@@ -97,6 +123,7 @@ const textNodes=[
             },
             {
                 text:'find a room',
+                requiredState:(currentState)=>currentState.shield,
                 nextText:5
             },
             {
@@ -117,7 +144,25 @@ const textNodes=[
             }
             
         ] 
+    },
+    {
+        id:5,
+        text:'question 5.', 
+        options:[
+            {
+                text:'add orange',
+                setState:{orange:true},
+                nextText:1
+            }
+            
+        ] 
     }
+    
+    
 ]
 
+
+btn.onclick=function(){
+    nav.classList.toggle('nav_open'); 
+}
 startGame()
