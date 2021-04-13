@@ -4,17 +4,18 @@ const optionElement = document.getElementById('option-buttons')
 const objectElement = document.getElementById('menu-objects')
 var btn = document.querySelector('.button-objects');
 var nav = document.querySelector('.nav');
-
+var solde=document.getElementById('solde');
 
 var state = {}
-var stateDialog = {}
+//var soldeWallet;
+
 
 
 function startGame() {
 
-    state = {orange:false,flyer:false, bag:false, pass:false}
-    stateDialog = { talk: false, talkEnd: false,talkEnd2:false }
- 
+    state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet:10 }
+    //stateDialog = {}
+
     //display the first text 
     showTextNode(1)
 }
@@ -22,16 +23,15 @@ function startGame() {
 //function that displays text and options 
 function showTextNode(textNodeIndex) {
     const textNode = textNodes.find(textNode => textNode.id === textNodeIndex)
+    if (state.talk) {
 
-    if (stateDialog.talk) {
 
+        if (state.talkEnd) {
 
-        if (stateDialog.talkEnd) {
-           
-            if(stateDialog.talkEnd2){
-                textElement.innerText = textNode.text +textNode.dialog + textNode.dialogEnd+textNode.dialogEnd2
-            }else{
-                 textElement.innerText = textNode.text + textNode.dialog + textNode.dialogEnd
+            if (state.talkEnd2) {
+                textElement.innerText = textNode.text + textNode.dialog + textNode.dialogEnd + textNode.dialogEnd2
+            } else {
+                textElement.innerText = textNode.text + textNode.dialog + textNode.dialogEnd
             }
         }
         else {
@@ -42,7 +42,7 @@ function showTextNode(textNodeIndex) {
     else {
         textElement.innerText = textNode.text
     }
-
+   
     locationElement.innerText = textNode.location
     //remove all options 
     while (optionElement.firstChild) {
@@ -53,28 +53,38 @@ function showTextNode(textNodeIndex) {
         objectElement.removeChild(objectElement.firstChild)
     }
     textNode.options.forEach(option => {
+        //console.log(option.requiredState(state))
         if (showOption(option)) {
             const button = document.createElement('button')
             button.innerText = option.text
             button.classList.add('btn')
             button.addEventListener('click', () => selectOption(option))
             optionElement.appendChild(button)
-
+           
+          
         }
 
     });
 
     for (let i in state) {
-
+        
         if (state[i]) {
+            if (i=="orange" || i=="flyer" || i=="bag" || i=="pass"){
+                 console.log(i)
             let attribut = document.createElement('a')
             let newContent = document.createTextNode(i)
             attribut.appendChild(newContent)
             objectElement.appendChild(attribut)
+            }
+           
 
         }
     }
-    console.log(stateDialog)
+
+    //soldeWallet++; 
+    document.getElementById("solde").innerHTML = state.soldeWallet;
+    //soldeWallet=solde
+    console.log(state)
 
 
 
@@ -82,7 +92,9 @@ function showTextNode(textNodeIndex) {
 }
 
 function showOption(option) {
-    return option.requiredState == null || option.requiredState(state) || option.requiredState(stateDialog)
+   
+    
+return option.requiredState == null || option.requiredState(state)
 }
 
 function selectOption(option) {
@@ -93,9 +105,13 @@ function selectOption(option) {
     //edit var state
     state = Object.assign(state, option.setState)
     //edit var stateDialog
-    stateDialog = Object.assign(stateDialog, option.setStateDialog)
+   // stateDialog = Object.assign(stateDialog, option.setStateDialog)
+    console.log(solde)
 
-
+    if (option.buy){
+        state.soldeWallet-= option.buy;
+        }
+   
     showTextNode(nextTextNodeId)
 }
 
@@ -120,7 +136,8 @@ const textNodes = [
         options: [
             {
                 text: 'Buy',
-               
+                requiredState: (currentState) => (currentState.soldeWallet>2),  
+                buy: 3,
                 nextText: 3
             },
             {
@@ -139,33 +156,37 @@ const textNodes = [
         options: [
             {
                 text: 'Talk to him',
+                
                 requiredState: (currentState) => (currentState.talk == false),
-                setStateDialog: { talk: true },
-               
+                setState: { talk: true },
                 nextText: 3
             },
             {
                 text: 'Do not talk',
+               
                 requiredState: (currentState) => (currentState.talk == false),
                 nextText: 4
             },
             {
                 text: 'Take orange',
+              
                 requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false),
-                setStateDialog: { talkEnd: true },
-                setState: { orange: true },
+                setState: { talkEnd: true, orange: true },
+           
                 nextText: 3
             },
             {
                 text: 'Do not take',
+                
                 requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false),
-                setStateDialog:{talk:false, talkEnd:false},
+                setState: { talk: false, talkEnd: false },
                 nextText: 4
             },
             {
                 text: 'Next',
+               
                 requiredState: (currentState) => (currentState.talkEnd),
-                setStateDialog:{talk:false, talkEnd:false},
+                setState: { talk: false, talkEnd: false },
                 nextText: 4
             }
 
@@ -174,17 +195,19 @@ const textNodes = [
 
     {
         id: 4,
-        location:'',
+        location: '',
         text: 'On the way to join your daughter, you see a castle flyer on the ground, including the program of shows.',
-        dialog:'',
+        dialog: '',
         options: [
             {
                 text: 'Pick up',
+               
                 setState: { flyer: true },
                 nextText: 5
             },
             {
                 text: 'Do not Pick up',
+           
                 nextText: 5
             }
 
@@ -201,20 +224,23 @@ const textNodes = [
         options: [
             {
                 text: 'Talk to him',
+                
                 requiredState: (currentState) => (currentState.talk == false),
-                setStateDialog: { talk: true },
+                setState: { talk: true },
                 nextText: 5
             },
             {
                 text: 'Do not talk',
-                requiredState: (currentState) => (currentState.talk == false),
                
+                requiredState: (currentState) => (currentState.talk == false),
+
                 nextText: 6
-            }, 
+            },
             {
                 text: 'Next',
+               
                 requiredState: (currentState) => (currentState.talk),
-                setStateDialog:{talk:false, talkEnd:false},
+                setState: { talk: false, talkEnd: false },
                 nextText: 6
             }
 
@@ -228,45 +254,50 @@ const textNodes = [
         text: 'You arrived too late at the show.\nHowever, you recognize your daughter s bag.\nInside there is her ID.',
         dialog: '\n\nNext to the bag, there is a photographer.',
         dialogEnd: '\n\n>Talk to him\n\n-Good afternoon, I am looking for my daughter. Have you seen a little girl ?\nMaybe, have you got a photo ?',
-        dialogEnd2: '\n\n>Show ID\n\nI recognize her, she went to the Star Grove.', 
+        dialogEnd2: '\n\n>Show ID\n\nI recognize her, she went to the Star Grove.',
         options: [
             {
                 text: 'Pick up the bag',
+               
                 requiredState: (currentState) => (currentState.talk == false),
-                setState: { bag: true },
-                setStateDialog: { talk: true },
+                setState: { bag: true, talk: true },
+            
                 nextText: 6
             },
             {
                 text: 'Do not pick up',
+               
                 requiredState: (currentState) => (currentState.talk == false),
-                setStateDialog: { talk: true },
+                setState: { talk: true },
                 nextText: 6
             },
             {
                 text: 'Talk to him',
+                
                 requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false),
-                setStateDialog: { talkEnd: true },
+                setState: { talkEnd: true },
                 nextText: 6
             },
             {
                 text: 'Do not talk',
+               
                 requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false),
-                setStateDialog:{talk:false, talkEnd:false,talkEnd2:false},
+                setState: { talk: false, talkEnd: false, talkEnd2: false },
                 nextText: 6
             },
             {
-                text: 'Show ID', 
-               //Problem here 
-                requiredState: (currentState) => (currentState.talkEnd && currentState.talkEnd2==false ),
+                text: 'Show ID',
                
-                setStateDialog: { talkEnd2: true },
+                requiredState: (currentState) => (currentState.bag && currentState.talk && currentState.talkEnd && currentState.talkEnd2 == false),
+
+                setState: { talkEnd2: true },
                 nextText: 6
             },
             {
                 text: 'Go to the Star Grove',
+                
                 requiredState: (currentState) => (currentState.talkEnd2),
-                setStateDialog:{talk:false, talkEnd:false,talkEnd2:false},
+                setState: { talk: false, talkEnd: false, talkEnd2: false },
                 nextText: 7
             }
 
@@ -275,88 +306,94 @@ const textNodes = [
 
     {
         id: 7,
-        location:'Star Grove',
+        location: 'Star Grove',
         text: 'You are now in the front of the entrance to the Star Grove.\nYou see a poster where it is written:\n\n< It is a paying grove,\nIt is $10 to visit.\nIt is free for children.\nFor foreigners, discounts at the Queen s Grove.>',
-        dialog:'',
+        dialog: '',
         options: [
             {
                 text: 'Buy ticket',
-                requiredState: (currentState) => (currentState.pass==false),
+                buy:10,
+                requiredState: (currentState) => (currentState.pass == false && currentState.soldeWallet>=10),
                 nextText: 9
             },
             {
                 text: 'Show your pass',
                 requiredState: (currentState) => (currentState.pass),
                 nextText: 9
-            }, 
+            },
             {
                 text: 'Go to the Queen s Grove',
                 nextText: 8
-            } 
+            }
 
         ]
     },
 
     {
         id: 8,
-        location:'Queen s Grove',
+        location: 'Queen s Grove',
         text: 'On the side of the grove, there is a hut that sells passes to visit all the groves.\n\nSeller says, <for foreign visitors pass at $3 for the Star Groves, and the Grove of the Three fountains.>',
-        dialog:'',
+        dialog: '',
         options: [
             {
                 text: 'Buy pass',
-                setState:{pass:true},
+                requiredState: (currentState) => (currentState.soldeWallet>=3 && currentState.pass==false),
+                setState: { pass: true },
+                buy:3,
                 nextText: 7
             },
             {
                 text: 'Do not buy',
-                nextText: 8
-            }, 
-            
+
+                nextText: 7
+            },
+
         ]
     },
 
     {
         id: 9,
-        location:'Grove of the Three fountains',
+        location: 'Grove of the Three fountains',
         text: 'After you have looked for your daughter in the Star Groves, you found your daughter in the next grove, Grove of the Three fountains.\n\nBut she will be unable to move to reach the exit because she has sunstroke.\n\nTo save her you have to give her some sweet things. ',
-        dialog:'\n\n>Give her the orange\n\nYour daughter regained her strength. You can join the exit with her before the gardens close.\nThe exit from the gardens is at the Mirror Pool.',
+        dialog: '\n\n>Give her the orange\n\nYour daughter regained her strength. You can join the exit with her before the gardens close.\nThe exit from the gardens is at the Mirror Pool.',
         options: [
             {
                 text: 'Give her the orange',
-                //probleme here
-                requiredState: (currentState) => (currentState.orange),
-                setStateDialog:{talk:true},
+               
+                requiredState: (currentState) => (currentState.orange && currentState.talk == false),
+
+                setState: { talk: true },
+
                 nextText: 9
             },
             {
                 text: 'Go to the Mirror Pool',
                 requiredState: (currentState) => (currentState.talk),
-                setStateDialog:{talk:false},
+                setState: { talk: false },
                 nextText: 10
             }
-            
-            
+
+
         ]
     },
-    
+
     {
         id: 10,
-        location:'Mirror Pool',
+        location: 'Mirror Pool',
         text: 'This is the exit from the gardens.\n\nDo you want to go out ?',
-        dialog:'',
+        dialog: '',
         options: [
             {
                 text: 'Yes',
-                
+
                 nextText: 14
             },
             {
                 text: 'No',
                 nextText: 10
             }
-            
-            
+
+
         ]
     },
 

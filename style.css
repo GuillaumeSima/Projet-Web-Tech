@@ -65,11 +65,18 @@ body{
     float: left;
    
 } 
+.wallet{
+    margin-top: 10%;
+    height: 10%;
+    background-color:cyan;
+}
+
+
 .objects{
     margin-top: 10%;
     background-color:blue;
     float: right;
-    height: 90%;
+    height: 70%;
     width: 100%;
 }
 
