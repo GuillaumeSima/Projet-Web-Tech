@@ -163,9 +163,34 @@ height: 100%;
     float: left;
 }
 
-.compass{
+.compassMenu{
     width: 50%;
     height: 30%;
    background-color:burlywood;
     float: left;
 }
+
+.compass {
+    position: relative;
+    margin-top: 50px;
+    margin-left: 40%;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    background-color: cornflowerblue;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    
+  }
+
+  .compass > .arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-style: solid;
+    border-width: 15px 10px 0 10px;
+    border-color: red transparent transparent transparent;
+    z-index: 1;
+  }
