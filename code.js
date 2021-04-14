@@ -6,6 +6,11 @@ var btn = document.querySelector('.button-objects');
 var nav = document.querySelector('.nav');
 var solde=document.getElementById('solde');
 
+var timerDiv=document.querySelector('.timer')
+const startingHours=2; 
+const stopGame=5; 
+let time =0; 
+
 var state = {}
 //var soldeWallet;
 
@@ -14,8 +19,8 @@ var state = {}
 function startGame() {
 
     state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet:10 }
-    //stateDialog = {}
-
+    //timer starting
+    time = startingHours*3600; 
     //display the first text 
     showTextNode(1)
 }
@@ -42,8 +47,10 @@ function showTextNode(textNodeIndex) {
     else {
         textElement.innerText = textNode.text
     }
-   
+   //display location
     locationElement.innerText = textNode.location
+    //increase time
+    time=time+textNode.time
     //remove all options 
     while (optionElement.firstChild) {
         optionElement.removeChild(optionElement.firstChild)
@@ -119,6 +126,7 @@ const textNodes = [
     {
         id: 1,
         location: 'Latona fountain',
+        time:0, 
         text: 'After a morning visit inside the Palace, you and your daughter want to visit the gardens in the afternoon.\nA blazing sun dominates this afternoon.\n\nHowever, you decide to split up to meet again later.\n\nWhile your daughter is going to see a water fountain show at the Apollo s fountain, you choose to buy yourself an ice cream.\n\n',
         dialog: "",
         options: [
@@ -131,6 +139,7 @@ const textNodes = [
     {
         id: 2,
         location: 'Ice cream seller',
+        time: 500, 
         text: 'question 2.',
         dialog: "",
         options: [
@@ -150,6 +159,7 @@ const textNodes = [
     {
         id: 3,
         location: 'Orangery',
+        time: 500, 
         text: 'Intrigued by trees in the Orangery garden, you approach them.\n\nA castle gardener is in the process of caring for trees.',
         dialog: '\n\n>Talk to him\n\n-Hello, I would like to know what these trees are called ?\n-They are orange trees. Have you never seen an orange tree before ?\n-No, it does not grow orange in Scotland.\n-Um ok, take an orange, it is really good and sweet',
         dialogEnd: '\n\n>Take orange\n\n-Thank you so much, I will eat it later.',
@@ -196,6 +206,7 @@ const textNodes = [
     {
         id: 4,
         location: '',
+        time: 500, 
         text: 'On the way to join your daughter, you see a castle flyer on the ground, including the program of shows.',
         dialog: '',
         options: [
@@ -219,6 +230,7 @@ const textNodes = [
     {
         id: 5,
         location: 'Apollo s fountain',
+        time: 500, 
         text: 'Arriving at the Apollo s fountain, your daughter is gone.\nYou can interact with another visitor.',
         dialog: '\n\n>Talk to him\n\n-Hello, the show is over? I am looking for my daughter.\n-Yes,  the show is over. Your daughter probably went to the next show. But I do not have the program. You must look in the castle flyer.\n-Thanks you',
         options: [
@@ -251,6 +263,7 @@ const textNodes = [
     {
         id: 6,
         location: 'Obelisk Grove',
+        time: 500, 
         text: 'You arrived too late at the show.\nHowever, you recognize your daughter s bag.\nInside there is her ID.',
         dialog: '\n\nNext to the bag, there is a photographer.',
         dialogEnd: '\n\n>Talk to him\n\n-Good afternoon, I am looking for my daughter. Have you seen a little girl ?\nMaybe, have you got a photo ?',
@@ -307,6 +320,7 @@ const textNodes = [
     {
         id: 7,
         location: 'Star Grove',
+        time: 500, 
         text: 'You are now in the front of the entrance to the Star Grove.\nYou see a poster where it is written:\n\n< It is a paying grove,\nIt is $10 to visit.\nIt is free for children.\nFor foreigners, discounts at the Queen s Grove.>',
         dialog: '',
         options: [
@@ -332,6 +346,7 @@ const textNodes = [
     {
         id: 8,
         location: 'Queen s Grove',
+        time: 500, 
         text: 'On the side of the grove, there is a hut that sells passes to visit all the groves.\n\nSeller says, <for foreign visitors pass at $3 for the Star Groves, and the Grove of the Three fountains.>',
         dialog: '',
         options: [
@@ -354,6 +369,7 @@ const textNodes = [
     {
         id: 9,
         location: 'Grove of the Three fountains',
+        time: 500, 
         text: 'After you have looked for your daughter in the Star Groves, you found your daughter in the next grove, Grove of the Three fountains.\n\nBut she will be unable to move to reach the exit because she has sunstroke.\n\nTo save her you have to give her some sweet things. ',
         dialog: '\n\n>Give her the orange\n\nYour daughter regained her strength. You can join the exit with her before the gardens close.\nThe exit from the gardens is at the Mirror Pool.',
         options: [
@@ -380,6 +396,7 @@ const textNodes = [
     {
         id: 10,
         location: 'Mirror Pool',
+        time: 500, 
         text: 'This is the exit from the gardens.\n\nDo you want to go out ?',
         dialog: '',
         options: [
@@ -401,7 +418,8 @@ const textNodes = [
 
     {
         id: 14,
-        text: 'question 14.',
+        time:0, 
+        text: 'question 14.\n\n END GAME',
         options: [
             {
                 text: 'Restart',
@@ -418,4 +436,52 @@ const textNodes = [
 btn.onclick = function () {
     nav.classList.toggle('nav_open');
 }
+
+var displaysTimer = function(){
+  let hours= Math.floor(time/3600)
+  let minutes=  Math.floor(time/60%60)
+  let seconds =time%60; 
+
+  //need two number else add a 0 before
+  hours = hours<10 ? '0' + hours : hours;
+  minutes = minutes <10 ? '0' + minutes : minutes; 
+  seconds = seconds <10 ? '0' + seconds : seconds; 
+ //display in Div 
+ timerDiv.textContent=hours+":"+minutes+":"+seconds+"PM"; 
+ //launch displaysTimer every 500ms, every half secondes
+ setTimeout(displaysTimer, 500);
+
+ if (time>=stopGame*3600)
+ {
+    showTextNode(14)
+ }
+ else {
+     time++;
+ }
+  
+ /*   var today, hours,minutes,secondes, twoNumber; 
+    today=new Date(); 
+    twoNumber=function(element){
+        if (element<10){
+            return element="0"+element; 
+
+        } else{
+            return element; 
+        }
+    }
+    //recover hours 
+    hours=twoNumber(today.getHours());
+    //recover minutes 
+    minutes=twoNumber(today.getMinutes()); 
+     //recover secondes
+     secondes=twoNumber(today.getSeconds());
+     //display in Div 
+    timerDiv.textContent=hours+":"+minutes+":"+secondes+"PM"; 
+     //launch displaysTimer every 1000ms, every secondes
+     setTimeout(displaysTimer, 1000); 
+*/
+    }
+
+
+displaysTimer(); 
 startGame()

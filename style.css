@@ -65,6 +65,12 @@ body{
     float: left;
    
 } 
+
+.timer{
+    background-color: coral;
+    color: white;
+    border-bottom: 1px solid black;
+}
 .wallet{
     margin-top: 10%;
     height: 10%;
