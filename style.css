@@ -194,3 +194,20 @@ height: 100%;
     border-color: red transparent transparent transparent;
     z-index: 1;
   }
+
+  .outer {
+    /* Note: first half of animation duration is spent at 12 o'clock. */
+    animation: rotate 2s ease-out 1;
+    height: 60px;
+    width: 60px;
+   left: 30%;  /*top/left equal to radius. */
+    top: 31%;
+    }
+
+  .circle {
+    background: linear-gradient( red, yellow, blue, orange);
+    border-radius: 50%;
+    position: absolute;
+    border: none;
+   
+    }

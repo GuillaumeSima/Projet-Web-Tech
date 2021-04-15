@@ -490,6 +490,10 @@ var displaysTimer = function () {
 function rotateAnimation(el, speed) {
     var elem = document.getElementById(el);
     var map=document.getElementById('lamap');
+    var north=document.getElementById("north"); 
+    var south=document.getElementById("south"); 
+    var east=document.getElementById("east"); 
+    var west=document.getElementById("west");
     /*if(navigator.userAgent.match("Chrome")){
         elem.style.WebkitTransform = "rotate("+degrees+"deg)";
     } else if(navigator.userAgent.match("Firefox")){
@@ -505,6 +509,12 @@ function rotateAnimation(el, speed) {
     looper = setTimeout('rotateAnimation(\'' + el + '\',' + speed + ')', speed);
 
     elem.style.transform = "rotate(" + degrees + "deg)";
+    north.style.transform=" rotate(" + degrees + "deg) translateY(-110px) rotate(" + -degrees + "deg)";
+    south.style.transform="rotate(" + (degrees+180) + "deg) translateY(-110px) rotate(" + (-degrees-180) + "deg)";
+    east.style.transform=" rotate(" + (degrees+90) + "deg) translateY(-110px) rotate(" + (-degrees-90) + "deg)";
+    west.style.transform="rotate(" + (degrees-90) + "deg) translateY(-110px) rotate(" + (-degrees+90) + "deg)";
+    
+    
     map.style.top=degrees;
     console.log(end)
     console.log(degrees)
