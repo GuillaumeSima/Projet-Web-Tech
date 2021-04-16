@@ -6,6 +6,14 @@ var btn = document.querySelector('.button-objects');
 var nav = document.querySelector('.nav');
 var solde = document.getElementById('solde');
 //compass
+var north = document.getElementById("north")
+north.onclick = selectCompass;
+var south = document.getElementById("south");
+south.onclick = selectCompass;
+var east = document.getElementById("east");
+east.onclick = selectCompass;
+var west = document.getElementById("west");
+west.onclick = selectCompass;
 var looper;
 var degrees = 0;
 var end = 0;
@@ -24,9 +32,12 @@ var state = {}
 
 function startGame() {
 
-    state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet: 10}
+    state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet: 10, daughter:false}
     //timer starting
     time = startingHours * 3600;
+    // north.onclick(selectCompass);
+
+
     //display the first text 
     showTextNode(1)
 }
@@ -51,14 +62,72 @@ function showTextNode(textNodeIndex) {
     }
 
     else {
-        textElement.innerText = textNode.text 
+        textElement.innerText = textNode.text
         //turn compass
-    end=textNode.north
-    rotateAnimation("img1", 30);
+        end = textNode.north
+        rotateAnimation("img1", 20);
     }
     //display location
     locationElement.innerText = textNode.location
-   
+
+
+
+    //display compass neighbors 
+    var neighbors = textNode.neighbors;
+
+    //console.table(neighbors); 
+    for (let i in neighbors) {
+
+
+        if (i == "north") {
+            if (neighbors[i] == false) {
+               north.style.visibility='hidden';
+            }
+            else{
+                north.style.visibility='visible';
+                 north.innerText = neighbors[i];
+            }
+           
+        } else if (i == "south") {
+            if (neighbors[i] == false) {
+                south.style.visibility='hidden';
+             }
+             else{
+                 south.style.visibility='visible';
+                  south.innerText = neighbors[i];
+             }
+          
+        } else if (i == "east") {
+            if (neighbors[i] == false) {
+                east.style.visibility='hidden';
+             }
+             else{
+                 east.style.visibility='visible';
+                  east.innerText = neighbors[i];
+             }
+           
+        } else if (i == "west") {
+            if (neighbors[i] == false) {
+                west.style.visibility='hidden';
+             }
+             else{
+                 west.style.visibility='visible';
+                  west.innerText = neighbors[i];
+             }
+          
+        }
+
+
+
+    }
+    /* if (neighbors[0]=="north"){
+         console.log("here0"); 
+         Object.values(neighbors); 
+     }
+ */
+
+
+
     //increase time
     time = time + textNode.time
     //remove all options 
@@ -132,11 +201,23 @@ function selectOption(option) {
     showTextNode(nextTextNodeId)
 }
 
+
+function selectCompass() {
+
+    state.talk=false;
+    state.talkEnd=false;
+    state.talkEnd2=false;
+    const textNode = textNodes.find(textNode => textNode.location === this.innerHTML)
+    showTextNode(textNode.id)
+    //alert("Button clicked, id " + this.id + ", text" + this.innerHTML);
+}
+
 const textNodes = [
     {
         id: 1,
         location: 'Latona fountain',
-        north:68,
+        neighbors: { north:'Star Grove', south:'Queen s Grove', east: 'Ice cream seller', west: 'Flyer' },
+        north: 20,
         time: 0,
         text: 'After a morning visit inside the Palace, you and your daughter want to visit the gardens in the afternoon.\nA blazing sun dominates this afternoon.\n\nHowever, you decide to split up to meet again later.\n\nWhile your daughter is going to see a water fountain show at the Apollo s fountain, you choose to buy yourself an ice cream.\n\n',
         dialog: "",
@@ -150,7 +231,8 @@ const textNodes = [
     {
         id: 2,
         location: 'Ice cream seller',
-        north:113,
+        neighbors: { north: false, south: 'Queen s Grove', east: 'Orangery', west: 'Latona fountain' },
+        north: 50,
         time: 500,
         text: 'question 2.',
         dialog: "",
@@ -171,7 +253,8 @@ const textNodes = [
     {
         id: 3,
         location: 'Orangery',
-        north:159,
+        neighbors: { north: false, south: false, east: false, west: 'Ice cream seller' },
+        north: 340,
         time: 500,
         text: 'Intrigued by trees in the Orangery garden, you approach them.\n\nA castle gardener is in the process of caring for trees.',
         dialog: '\n\n>Talk to him\n\n-Hello, I would like to know what these trees are called ?\n-They are orange trees. Have you never seen an orange tree before ?\n-No, it does not grow orange in Scotland.\n-Um ok, take an orange, it is really good and sweet',
@@ -193,7 +276,7 @@ const textNodes = [
             {
                 text: 'Take orange',
 
-                requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false),
+                requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false && currentState.orange==false),
                 setState: { talkEnd: true, orange: true },
 
                 nextText: 3
@@ -201,7 +284,7 @@ const textNodes = [
             {
                 text: 'Do not take',
 
-                requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false),
+                requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false && currentState.orange==false),
                 setState: { talk: false, talkEnd: false },
                 nextText: 4
             },
@@ -218,21 +301,22 @@ const textNodes = [
 
     {
         id: 4,
-        location: '',
-        north:190,
+        location: 'Flyer',
+        neighbors: { north: false, south: false, east: 'Latona fountain', west: 'Apollo s fountain' },
+        north: 30,
         time: 500,
         text: 'On the way to join your daughter, you see a castle flyer on the ground, including the program of shows.',
         dialog: '',
         options: [
             {
                 text: 'Pick up',
-
+                requiredState: (currentState) => (currentState.flyer==false),
                 setState: { flyer: true },
                 nextText: 5
             },
             {
                 text: 'Do not Pick up',
-
+                requiredState: (currentState) => (currentState.flyer==false),
                 nextText: 5
             }
 
@@ -244,7 +328,8 @@ const textNodes = [
     {
         id: 5,
         location: 'Apollo s fountain',
-        north:68,
+        neighbors: { north: 'Star Grove', south: false, east: 'Flyer', west: 'Obelisk Grove' },
+        north: 68,
         time: 500,
         text: 'Arriving at the Apollo s fountain, your daughter is gone.\nYou can interact with another visitor.',
         dialog: '\n\n>Talk to him\n\n-Hello, the show is over? I am looking for my daughter.\n-Yes,  the show is over. Your daughter probably went to the next show. But I do not have the program. You must look in the castle flyer.\n-Thanks you',
@@ -257,14 +342,7 @@ const textNodes = [
                 nextText: 5
             },
             {
-                text: 'Do not talk',
-
-                requiredState: (currentState) => (currentState.talk == false),
-
-                nextText: 6
-            },
-            {
-                text: 'Next',
+                text: 'Follow indication',
 
                 requiredState: (currentState) => (currentState.talk),
                 setState: { talk: false, talkEnd: false },
@@ -278,7 +356,8 @@ const textNodes = [
     {
         id: 6,
         location: 'Obelisk Grove',
-        north:337,
+        neighbors: { north: false, south: 'Apollo s fountain', east: 'Star Grove', west: false },
+        north: 337,
         time: 500,
         text: 'You arrived too late at the show.\nHowever, you recognize your daughter s bag.\nInside there is her ID.',
         dialog: '\n\nNext to the bag, there is a photographer.',
@@ -288,7 +367,7 @@ const textNodes = [
             {
                 text: 'Pick up the bag',
 
-                requiredState: (currentState) => (currentState.talk == false),
+                requiredState: (currentState) => (currentState.talk == false && currentState.bag==false),
                 setState: { bag: true, talk: true },
 
                 nextText: 6
@@ -296,7 +375,7 @@ const textNodes = [
             {
                 text: 'Do not pick up',
 
-                requiredState: (currentState) => (currentState.talk == false),
+                requiredState: (currentState) => (currentState.talk == false && currentState.bag==false),
                 setState: { talk: true },
                 nextText: 6
             },
@@ -336,7 +415,8 @@ const textNodes = [
     {
         id: 7,
         location: 'Star Grove',
-        north:292,
+        neighbors: { north: 'Grove of the Three fountains', south: 'Apollo s fountain', east:'Latona fountain', west: 'Obelisk Grove' },
+        north: 10,
         time: 500,
         text: 'You are now in the front of the entrance to the Star Grove.\nYou see a poster where it is written:\n\n< It is a paying grove,\nIt is $10 to visit.\nIt is free for children.\nFor foreigners, discounts at the Queen s Grove.>',
         dialog: '',
@@ -363,7 +443,8 @@ const textNodes = [
     {
         id: 8,
         location: 'Queen s Grove',
-        north:155,
+        neighbors: { north: 'Latona fountain', south: false, east: 'Ice cream seller', west: 'Mirror Pool' },
+        north: 320,
         time: 500,
         text: 'On the side of the grove, there is a hut that sells passes to visit all the groves.\n\nSeller says, <for foreign visitors pass at $3 for the Star Groves, and the Grove of the Three fountains.>',
         dialog: '',
@@ -387,7 +468,8 @@ const textNodes = [
     {
         id: 9,
         location: 'Grove of the Three fountains',
-        north:248,
+        neighbors: { north: false, south: 'Star Grove', east: false, west: false },
+        north: 30,
         time: 500,
         text: 'After you have looked for your daughter in the Star Groves, you found your daughter in the next grove, Grove of the Three fountains.\n\nBut she will be unable to move to reach the exit because she has sunstroke.\n\nTo save her you have to give her some sweet things. ',
         dialog: '\n\n>Give her the orange\n\nYour daughter regained her strength. You can join the exit with her before the gardens close.\nThe exit from the gardens is at the Mirror Pool.',
@@ -397,7 +479,7 @@ const textNodes = [
 
                 requiredState: (currentState) => (currentState.orange && currentState.talk == false),
 
-                setState: { talk: true },
+                setState: { talk: true, daughter:true},
 
                 nextText: 9
             },
@@ -415,19 +497,16 @@ const textNodes = [
     {
         id: 10,
         location: 'Mirror Pool',
-        north:50,
+        neighbors: { north:false, south:false, east: 'Queen s Grove', west: false },
+        north: 340,
         time: 500,
         text: 'This is the exit from the gardens.\n\nDo you want to go out ?',
         dialog: '',
         options: [
             {
-                text: 'Yes',
+                text: 'Exit',
 
                 nextText: 14
-            },
-            {
-                text: 'No',
-                nextText: 10
             }
 
 
@@ -438,13 +517,14 @@ const textNodes = [
 
     {
         id: 14,
-        time: 0,
-        north:0,
+        location:'end',
+        //time: 0,
+        neighbors: { north: false, south: false, east: false, west: false },
+        north: 0,
         text: 'question 14.\n\n END GAME',
         options: [
             {
                 text: 'Restart',
-
                 nextText: -1
             }
 
@@ -489,11 +569,7 @@ var displaysTimer = function () {
 
 function rotateAnimation(el, speed) {
     var elem = document.getElementById(el);
-    var map=document.getElementById('lamap');
-    var north=document.getElementById("north"); 
-    var south=document.getElementById("south"); 
-    var east=document.getElementById("east"); 
-    var west=document.getElementById("west");
+
     /*if(navigator.userAgent.match("Chrome")){
         elem.style.WebkitTransform = "rotate("+degrees+"deg)";
     } else if(navigator.userAgent.match("Firefox")){
@@ -509,15 +585,12 @@ function rotateAnimation(el, speed) {
     looper = setTimeout('rotateAnimation(\'' + el + '\',' + speed + ')', speed);
 
     elem.style.transform = "rotate(" + degrees + "deg)";
-    north.style.transform=" rotate(" + degrees + "deg) translateY(-110px) rotate(" + -degrees + "deg)";
-    south.style.transform="rotate(" + (degrees+180) + "deg) translateY(-110px) rotate(" + (-degrees-180) + "deg)";
-    east.style.transform=" rotate(" + (degrees+90) + "deg) translateY(-110px) rotate(" + (-degrees-90) + "deg)";
-    west.style.transform="rotate(" + (degrees-90) + "deg) translateY(-110px) rotate(" + (-degrees+90) + "deg)";
-    
-    
-    map.style.top=degrees;
-    console.log(end)
-    console.log(degrees)
+    north.style.transform = " rotate(" + degrees + "deg) translateY(-110px) rotate(" + -degrees + "deg)";
+    south.style.transform = "rotate(" + (degrees + 180) + "deg) translateY(-110px) rotate(" + (-degrees - 180) + "deg)";
+    east.style.transform = " rotate(" + (degrees + 90) + "deg) translateY(-110px) rotate(" + (-degrees - 90) + "deg)";
+    west.style.transform = "rotate(" + (degrees - 90) + "deg) translateY(-110px) rotate(" + (-degrees + 90) + "deg)";
+
+
     degrees++;
 
     if (degrees > 359) {
@@ -525,11 +598,11 @@ function rotateAnimation(el, speed) {
 
     }
     if (end == degrees) {
-        console.log("here1")
+
         clearInterval(looper)
     }
-    
-  
+
+
 
 
     document.getElementById("status").innerHTML = "rotate(" + degrees + "deg)";
