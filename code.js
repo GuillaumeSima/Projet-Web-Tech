@@ -36,7 +36,8 @@ function startGame() {
     //timer starting
     time = startingHours * 3600;
     // north.onclick(selectCompass);
-
+    //hidde the map
+    document.getElementById('mapCastle').style.visibility='hidden';
 
     //display the first text 
     showTextNode(1)
@@ -69,9 +70,6 @@ function showTextNode(textNodeIndex) {
     }
     //display location
     locationElement.innerText = textNode.location
-
-
-
     //display compass neighbors 
     var neighbors = textNode.neighbors;
 
@@ -156,7 +154,7 @@ function showTextNode(textNodeIndex) {
 
         if (state[i]) {
             if (i == "orange" || i == "flyer" || i == "bag" || i == "pass") {
-                console.log(i)
+              
                 let attribut = document.createElement('a')
                 let newContent = document.createTextNode(i)
                 attribut.appendChild(newContent)
@@ -172,7 +170,8 @@ function showTextNode(textNodeIndex) {
     //soldeWallet=solde
     console.log(state)
 
-
+    //display cursor and polygone
+    mapLocation(textNode.location);
 
 
 }
@@ -190,9 +189,12 @@ function selectOption(option) {
     }
     //edit var state
     state = Object.assign(state, option.setState)
-    //edit var stateDialog
-    // stateDialog = Object.assign(stateDialog, option.setStateDialog)
-    console.log(solde)
+
+        if(state.flyer)
+    {
+    document.getElementById('mapCastle').style.visibility='visible';
+    }
+    
 
     if (option.buy) {
         state.soldeWallet -= option.buy;
@@ -305,7 +307,7 @@ const textNodes = [
         neighbors: { north: false, south: false, east: 'Latona fountain', west: 'Apollo s fountain' },
         north: 30,
         time: 500,
-        text: 'On the way to join your daughter, you see a castle flyer on the ground, including the program of shows.',
+        text: 'On the way to join your daughter, you see a castle flyer on the ground.\n\nThe flyer contains a map with the program of shows.',
         dialog: '',
         options: [
             {
@@ -609,6 +611,192 @@ function rotateAnimation(el, speed) {
 }
 
 
+/////////////////  MAP PART ////////
+
+var place = {
+    "Latona fountain": { "lat": 48.805811, "lon": 2.116585, "iconPlace": 'latona_fountain_icon.png' },
+    "Ice cream seller": { "lat": 48.804475, "lon": 2.118645, "iconPlace": 'ice_cream_icon.png' },
+    "Orangery": { "lat": 48.802241, "lon": 2.118399, "iconPlace": 'orangery_icon.png' },
+    "Flyer": { "lat": 48.806618, "lon": 2.113625, "iconPlace": 'flyer_icon.png' },
+    "Apollo s fountain": { "lat": 48.807341, "lon": 2.109730, "iconPlace": 'apollo_icon.png' },
+    "Obelisk Grove": { "lat": 48.808468, "lon": 2.113951, "iconPlace": 'obelisk_icon.png' },
+    "Star Grove": { "lat": 48.807932, "lon": 2.116511, "iconPlace": 'star_grove_icon.png' },
+    "Grove of the Three fountains": { "lat": 48.807051, "lon": 2.120571, "iconPlace": 'three_fountain_icon.png' },
+    "Queen s Grove": { "lat": 48.803067, "lon": 2.116001, "iconPlace": 'queens_grove_icon.png' },
+    "Mirror Pool": { "lat": 48.803907, "lon": 2.111355, "iconPlace": 'miroir_pool_icon.png' }
+
+};
+
+//initialise map
+var mymap = L.map('mapCastle').setView([48.806618, 2.113625], 17);
+
+mymap.setMaxBounds([
+    [48.811544, 2.110533],
+    [48.808435, 2.122281],
+    [48.804224, 2.106327],
+    [48.801793, 2.119319]
+]);
+//load layer
+L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+    attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM FRANCE</a>',
+    maxZoom: 19,
+    minZoom: 15,
+    //id: 'mapbox/streets-v11',
+    //tileSize: 512,
+    //zoomOffset: -1,
+    //  accessToken: 'your.mapbox.access.token'
+}).addTo(mymap);
+
+
+    for (grove in place) {
+
+    var icone = L.icon({
+        iconUrl: place[grove].iconPlace,
+        iconSize: [50, 50],
+        iconAnchor: [25, 50],
+        popupAnchor: [0, -50]
+    })
+    //marker and popup
+    
+        var marker = L.marker([place[grove].lat, place[grove].lon], { icon: icone }).addTo(mymap);
+    marker.bindPopup("<b>" + grove + "</b> <br> prochain spectacle");
+    
+    
+
+}
+
+
+
+var polygonApolo = L.polygon([
+    [48.809022, 2.111584],
+    [48.809601, 2.109299],
+    [48.806365, 2.107400],
+    [48.805701, 2.109910],
+
+    [48.806697, 2.110468],
+    [48.806761, 2.110790],
+    [48.806881, 2.111090],
+
+    [48.807319, 2.111445],
+    [48.807559, 2.111445],
+    [48.807319, 2.111445],
+    [48.807877, 2.111198],
+    [48.807997, 2.110962],
+
+
+], {
+    color: 'grey',
+    fillOpacity: 1
+}).addTo(mymap);
+
+
+var polygonMiroir = L.polygon([
+
+    [48.806365, 2.107400],
+    [48.804278, 2.115184],
+    [48.802913, 2.114382],
+    [48.804258, 2.106158]
+
+], {
+    color: 'grey',
+    fillOpacity: 1
+}).addTo(mymap);
+
+var polygonQueens= L.polygon([
+
+    [48.804278, 2.115184],
+   
+    [48.803579, 2.117670],
+    [48.802433, 2.116994],
+
+    [48.802913, 2.114382]
+], {
+    color: 'grey',
+    fillOpacity: 1
+}).addTo(mymap);
+
+var polygonOrangery = L.polygon([
+
+
+
+[48.803579, 2.117670],
+[48.802924, 2.120121],
+[48.801754, 2.119419],
+[48.802433, 2.116994]
+
+], {
+color: 'grey',
+fillOpacity: 1
+}).addTo(mymap);
+
+
+var polygonObelisk = L.polygon([
+    
+    [48.809601, 2.109299],
+    [48.811315, 2.110326],
+    [48.809817, 2.115653],
+    [48.808210, 2.114707]
+   
+
+
+], {
+    color: 'grey',
+    fillOpacity: 1
+}).addTo(mymap);
+
+
+var polygonStar = L.polygon([
+    
+    [48.809817, 2.115653],
+    [48.809103, 2.118224],
+    [48.807530, 2.117271],
+
+    [48.808210, 2.114707]
+
+], {
+    color: 'grey',
+    fillOpacity: 1
+}).addTo(mymap);
+
+var polygonThree = L.polygon([
+    
+    [48.809103, 2.118224],
+    [48.807829, 2.123167],
+    [48.806186, 2.122239],
+    [48.807530, 2.117271]
+
+], {
+    color: 'grey',
+    fillOpacity: 1
+}).addTo(mymap);
+
+
+function mapLocation(location){
+
+    if (location=="Orangery")
+    {
+        polygonOrangery.remove(); 
+    }else if (location=="Apollo s fountain")
+    {
+        polygonApolo.remove(); 
+    }else if (location=="Obelisk Grove")
+    {
+        polygonObelisk.remove(); 
+    }else if (location=="Star Grove")
+    {
+        polygonStar.remove(); 
+    }else if (location=="Queen s Grove")
+    {
+        polygonQueens.remove(); 
+    }else if (location=="Grove of the Three fountains")
+    {
+        polygonThree.remove(); 
+    }else if (location=="Mirror Pool")
+    {
+        polygonMiroir.remove(); 
+    }
+  
+}
 
 
 displaysTimer();
