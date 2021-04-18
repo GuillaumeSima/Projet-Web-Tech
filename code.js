@@ -32,12 +32,12 @@ var state = {}
 
 function startGame() {
 
-    state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet: 10, daughter:false}
+    state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet: 10, daughter: false }
     //timer starting
     time = startingHours * 3600;
     // north.onclick(selectCompass);
     //hidde the map
-    document.getElementById('mapCastle').style.visibility='hidden';
+    document.getElementById('mapCastle').style.visibility = 'hidden';
 
     //display the first text 
     showTextNode(1)
@@ -66,7 +66,7 @@ function showTextNode(textNodeIndex) {
         textElement.innerText = textNode.text
         //turn compass
         end = textNode.north
-        rotateAnimation("img1", 20);
+        rotateAnimation("img1", 10);
     }
     //display location
     locationElement.innerText = textNode.location
@@ -79,40 +79,40 @@ function showTextNode(textNodeIndex) {
 
         if (i == "north") {
             if (neighbors[i] == false) {
-               north.style.visibility='hidden';
+                north.style.visibility = 'hidden';
             }
-            else{
-                north.style.visibility='visible';
-                 north.innerText = neighbors[i];
+            else {
+                north.style.visibility = 'visible';
+                north.innerText = neighbors[i];
             }
-           
+
         } else if (i == "south") {
             if (neighbors[i] == false) {
-                south.style.visibility='hidden';
-             }
-             else{
-                 south.style.visibility='visible';
-                  south.innerText = neighbors[i];
-             }
-          
+                south.style.visibility = 'hidden';
+            }
+            else {
+                south.style.visibility = 'visible';
+                south.innerText = neighbors[i];
+            }
+
         } else if (i == "east") {
             if (neighbors[i] == false) {
-                east.style.visibility='hidden';
-             }
-             else{
-                 east.style.visibility='visible';
-                  east.innerText = neighbors[i];
-             }
-           
+                east.style.visibility = 'hidden';
+            }
+            else {
+                east.style.visibility = 'visible';
+                east.innerText = neighbors[i];
+            }
+
         } else if (i == "west") {
             if (neighbors[i] == false) {
-                west.style.visibility='hidden';
-             }
-             else{
-                 west.style.visibility='visible';
-                  west.innerText = neighbors[i];
-             }
-          
+                west.style.visibility = 'hidden';
+            }
+            else {
+                west.style.visibility = 'visible';
+                west.innerText = neighbors[i];
+            }
+
         }
 
 
@@ -154,7 +154,7 @@ function showTextNode(textNodeIndex) {
 
         if (state[i]) {
             if (i == "orange" || i == "flyer" || i == "bag" || i == "pass") {
-              
+
                 let attribut = document.createElement('a')
                 let newContent = document.createTextNode(i)
                 attribut.appendChild(newContent)
@@ -189,12 +189,11 @@ function selectOption(option) {
     }
     //edit var state
     state = Object.assign(state, option.setState)
-
-        if(state.flyer)
-    {
-    document.getElementById('mapCastle').style.visibility='visible';
-    }
     
+    if (state.flyer) {
+document.getElementById('mapCastle').style.visibility = 'visible';
+    }
+
 
     if (option.buy) {
         state.soldeWallet -= option.buy;
@@ -206,9 +205,9 @@ function selectOption(option) {
 
 function selectCompass() {
 
-    state.talk=false;
-    state.talkEnd=false;
-    state.talkEnd2=false;
+    state.talk = false;
+    state.talkEnd = false;
+    state.talkEnd2 = false;
     const textNode = textNodes.find(textNode => textNode.location === this.innerHTML)
     showTextNode(textNode.id)
     //alert("Button clicked, id " + this.id + ", text" + this.innerHTML);
@@ -218,7 +217,7 @@ const textNodes = [
     {
         id: 1,
         location: 'Latona fountain',
-        neighbors: { north:'Star Grove', south:'Queen s Grove', east: 'Ice cream seller', west: 'Flyer' },
+        neighbors: { north: 'Star Grove', south: 'Queen s Grove', east: 'Ice cream seller', west: 'Flyer' },
         north: 20,
         time: 0,
         text: 'After a morning visit inside the Palace, you and your daughter want to visit the gardens in the afternoon.\nA blazing sun dominates this afternoon.\n\nHowever, you decide to split up to meet again later.\n\nWhile your daughter is going to see a water fountain show at the Apollo s fountain, you choose to buy yourself an ice cream.\n\n',
@@ -278,7 +277,7 @@ const textNodes = [
             {
                 text: 'Take orange',
 
-                requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false && currentState.orange==false),
+                requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false && currentState.orange == false),
                 setState: { talkEnd: true, orange: true },
 
                 nextText: 3
@@ -286,7 +285,7 @@ const textNodes = [
             {
                 text: 'Do not take',
 
-                requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false && currentState.orange==false),
+                requiredState: (currentState) => (currentState.talk && currentState.talkEnd == false && currentState.orange == false),
                 setState: { talk: false, talkEnd: false },
                 nextText: 4
             },
@@ -312,13 +311,13 @@ const textNodes = [
         options: [
             {
                 text: 'Pick up',
-                requiredState: (currentState) => (currentState.flyer==false),
+                requiredState: (currentState) => (currentState.flyer == false),
                 setState: { flyer: true },
                 nextText: 5
             },
             {
                 text: 'Do not Pick up',
-                requiredState: (currentState) => (currentState.flyer==false),
+                requiredState: (currentState) => (currentState.flyer == false),
                 nextText: 5
             }
 
@@ -369,7 +368,7 @@ const textNodes = [
             {
                 text: 'Pick up the bag',
 
-                requiredState: (currentState) => (currentState.talk == false && currentState.bag==false),
+                requiredState: (currentState) => (currentState.talk == false && currentState.bag == false),
                 setState: { bag: true, talk: true },
 
                 nextText: 6
@@ -377,7 +376,7 @@ const textNodes = [
             {
                 text: 'Do not pick up',
 
-                requiredState: (currentState) => (currentState.talk == false && currentState.bag==false),
+                requiredState: (currentState) => (currentState.talk == false && currentState.bag == false),
                 setState: { talk: true },
                 nextText: 6
             },
@@ -417,7 +416,7 @@ const textNodes = [
     {
         id: 7,
         location: 'Star Grove',
-        neighbors: { north: 'Grove of the Three fountains', south: 'Apollo s fountain', east:'Latona fountain', west: 'Obelisk Grove' },
+        neighbors: { north: 'Grove of the Three fountains', south: 'Apollo s fountain', east: 'Latona fountain', west: 'Obelisk Grove' },
         north: 10,
         time: 500,
         text: 'You are now in the front of the entrance to the Star Grove.\nYou see a poster where it is written:\n\n< It is a paying grove,\nIt is $10 to visit.\nIt is free for children.\nFor foreigners, discounts at the Queen s Grove.>',
@@ -481,7 +480,7 @@ const textNodes = [
 
                 requiredState: (currentState) => (currentState.orange && currentState.talk == false),
 
-                setState: { talk: true, daughter:true},
+                setState: { talk: true, daughter: true },
 
                 nextText: 9
             },
@@ -499,7 +498,7 @@ const textNodes = [
     {
         id: 10,
         location: 'Mirror Pool',
-        neighbors: { north:false, south:false, east: 'Queen s Grove', west: false },
+        neighbors: { north: false, south: false, east: 'Queen s Grove', west: false },
         north: 340,
         time: 500,
         text: 'This is the exit from the gardens.\n\nDo you want to go out ?',
@@ -519,7 +518,7 @@ const textNodes = [
 
     {
         id: 14,
-        location:'end',
+        location: 'end',
         //time: 0,
         neighbors: { north: false, south: false, east: false, west: false },
         north: 0,
@@ -614,22 +613,23 @@ function rotateAnimation(el, speed) {
 /////////////////  MAP PART ////////
 
 var place = {
-    "Latona fountain": { "lat": 48.805811, "lon": 2.116585, "iconPlace": 'latona_fountain_icon.png' },
-    "Ice cream seller": { "lat": 48.804475, "lon": 2.118645, "iconPlace": 'ice_cream_icon.png' },
-    "Orangery": { "lat": 48.802241, "lon": 2.118399, "iconPlace": 'orangery_icon.png' },
-    "Flyer": { "lat": 48.806618, "lon": 2.113625, "iconPlace": 'flyer_icon.png' },
-    "Apollo s fountain": { "lat": 48.807341, "lon": 2.109730, "iconPlace": 'apollo_icon.png' },
-    "Obelisk Grove": { "lat": 48.808468, "lon": 2.113951, "iconPlace": 'obelisk_icon.png' },
-    "Star Grove": { "lat": 48.807932, "lon": 2.116511, "iconPlace": 'star_grove_icon.png' },
-    "Grove of the Three fountains": { "lat": 48.807051, "lon": 2.120571, "iconPlace": 'three_fountain_icon.png' },
-    "Queen s Grove": { "lat": 48.803067, "lon": 2.116001, "iconPlace": 'queens_grove_icon.png' },
-    "Mirror Pool": { "lat": 48.803907, "lon": 2.111355, "iconPlace": 'miroir_pool_icon.png' }
+    "Latona fountain": { "lat": 48.805811, "lon": 2.116585, "iconPlace": 'latona_fountain_icon.png', "show": "prochain spectacle" },
+    "Ice cream seller": { "lat": 48.804475, "lon": 2.118645, "iconPlace": 'ice_cream_icon.png', "show": "prochain spectacle" },
+    "Orangery": { "lat": 48.802241, "lon": 2.118399, "iconPlace": 'orangery_icon.png', "show": "prochain spectacle" },
+    "Flyer": { "lat": 48.806618, "lon": 2.113625, "iconPlace": 'flyer_icon.png', "show": "prochain spectacle" },
+    "Apollo s fountain": { "lat": 48.807341, "lon": 2.109730, "iconPlace": 'apollo_icon.png', "show": "prochain spectacle" },
+    "Obelisk Grove": { "lat": 48.808468, "lon": 2.113951, "iconPlace": 'obelisk_icon.png', "show": "prochain spectacle" },
+    "Star Grove": { "lat": 48.807932, "lon": 2.116511, "iconPlace": 'star_grove_icon.png', "show": "prochain spectacle" },
+    "Grove of the Three fountains": { "lat": 48.807051, "lon": 2.120571, "iconPlace": 'three_fountain_icon.png', "show": "prochain spectacle" },
+    "Queen s Grove": { "lat": 48.803067, "lon": 2.116001, "iconPlace": 'queens_grove_icon.png', "show": "prochain spectacle" },
+    "Mirror Pool": { "lat": 48.803907, "lon": 2.111355, "iconPlace": 'miroir_pool_icon.png', "show": "prochain spectacle" }
 
 };
 
 //initialise map
-var mymap = L.map('mapCastle').setView([48.806618, 2.113625], 17);
-
+var mymap = L.map('mapCastle').setView([48.806618, 2.113625], 15);
+var markerUser;
+var grove;
 mymap.setMaxBounds([
     [48.811544, 2.110533],
     [48.808435, 2.122281],
@@ -648,24 +648,61 @@ L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
 }).addTo(mymap);
 
 
-    for (grove in place) {
+/*for (grove in place) {
 
-    var icone = L.icon({
+ 
+  //marker and popup
+  
+ //  marker = L.marker([place[grove].lat, place[grove].lon], { icon: icone }).addTo(mymap);
+  //marker.bindPopup("<b>" + grove + "</b> <br> prochain spectacle");
+  
+  
+
+}*/
+
+var iconUser = L.icon({
+    iconUrl: 'user.png',
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
+    popupAnchor: [0, -50]
+})
+grove="Latona fountain";
+markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
+markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
+function icone(grove) {
+    let icon = L.icon({
         iconUrl: place[grove].iconPlace,
         iconSize: [50, 50],
         iconAnchor: [25, 50],
         popupAnchor: [0, -50]
     })
-    //marker and popup
-    
-        var marker = L.marker([place[grove].lat, place[grove].lon], { icon: icone }).addTo(mymap);
-    marker.bindPopup("<b>" + grove + "</b> <br> prochain spectacle");
-    
-    
-
+    return icon
 }
 
+//Latona fountain
+grove = 'Latona fountain';
+var iconElement = icone(grove);
+var markerLatona = L.marker([place[grove].lat, place[grove].lon], { icon: iconElement });
+markerLatona.bindPopup("<b>" + grove + "</b> <br>" + place[grove].show);
 
+//Ice cream seller
+grove = 'Ice cream seller';
+var iconElement = icone(grove);
+var markerIce = L.marker([place[grove].lat, place[grove].lon], { icon: iconElement });
+markerIce.bindPopup("<b>" + grove + "</b> <br>" + place[grove].show);
+
+//flyer
+grove = 'Flyer';
+var iconElement = icone(grove);
+var markerFlyer = L.marker([place[grove].lat, place[grove].lon], { icon: iconElement });
+markerFlyer.bindPopup("<b>" + grove + "</b> <br>" + place[grove].show);
+
+
+///Apolo s fountain 
+grove = 'Apollo s fountain';
+var iconElement = icone(grove);
+var markerApolo = L.marker([place[grove].lat, place[grove].lon], { icon: iconElement });
+markerApolo.bindPopup("<b>" + grove + "</b> <br>" + place[grove].show);
 
 var polygonApolo = L.polygon([
     [48.809022, 2.111584],
@@ -689,6 +726,11 @@ var polygonApolo = L.polygon([
     fillOpacity: 1
 }).addTo(mymap);
 
+///Miroir 
+grove = 'Mirror Pool';
+var iconElement = icone(grove);
+var markerMiroir = L.marker([place[grove].lat, place[grove].lon], { icon: iconElement });
+markerMiroir.bindPopup("<b>" + grove + "</b> <br>" + place[grove].show);
 
 var polygonMiroir = L.polygon([
 
@@ -702,10 +744,16 @@ var polygonMiroir = L.polygon([
     fillOpacity: 1
 }).addTo(mymap);
 
-var polygonQueens= L.polygon([
+
+///Queens 
+grove = 'Queen s Grove';
+var iconElement = icone(grove);
+var markerQueens = L.marker([place[grove].lat, place[grove].lon], { icon: iconElement });
+markerQueens.bindPopup("<b>" + grove + "</b> <br>" + place[grove].show);
+var polygonQueens = L.polygon([
 
     [48.804278, 2.115184],
-   
+
     [48.803579, 2.117670],
     [48.802433, 2.116994],
 
@@ -715,28 +763,39 @@ var polygonQueens= L.polygon([
     fillOpacity: 1
 }).addTo(mymap);
 
+
+
+///Orangery 
+grove = 'Orangery';
+var iconElement = icone(grove);
+var markerOrangery = L.marker([place[grove].lat, place[grove].lon], { icon: iconElement });
+markerOrangery.bindPopup("<b>" + grove + "</b> <br>" + place[grove].show);
 var polygonOrangery = L.polygon([
 
 
 
-[48.803579, 2.117670],
-[48.802924, 2.120121],
-[48.801754, 2.119419],
-[48.802433, 2.116994]
+    [48.803579, 2.117670],
+    [48.802924, 2.120121],
+    [48.801754, 2.119419],
+    [48.802433, 2.116994]
 
 ], {
-color: 'grey',
-fillOpacity: 1
+    color: 'grey',
+    fillOpacity: 1
 }).addTo(mymap);
 
-
+///Obelisk 
+grove = 'Obelisk Grove';
+var iconElement = icone(grove);
+var markerObelisk = L.marker([place[grove].lat, place[grove].lon], { icon: iconElement });
+markerObelisk.bindPopup("<b>" + grove + "</b> <br>" + place[grove].show);
 var polygonObelisk = L.polygon([
-    
+
     [48.809601, 2.109299],
     [48.811315, 2.110326],
     [48.809817, 2.115653],
     [48.808210, 2.114707]
-   
+
 
 
 ], {
@@ -744,9 +803,13 @@ var polygonObelisk = L.polygon([
     fillOpacity: 1
 }).addTo(mymap);
 
-
+///Star grove
+grove = 'Star Grove';
+var iconElement = icone(grove);
+var markerStar = L.marker([place[grove].lat, place[grove].lon], { icon: iconElement });
+markerStar.bindPopup("<b>" + grove + "</b> <br>" + place[grove].show);
 var polygonStar = L.polygon([
-    
+
     [48.809817, 2.115653],
     [48.809103, 2.118224],
     [48.807530, 2.117271],
@@ -758,8 +821,13 @@ var polygonStar = L.polygon([
     fillOpacity: 1
 }).addTo(mymap);
 
+/// Grove of the Three fountains
+grove = 'Grove of the Three fountains';
+var iconElement = icone(grove);
+var markerThree = L.marker([place[grove].lat, place[grove].lon], { icon: iconElement });
+markerThree.bindPopup("<b>" + grove + "</b> <br>" + place[grove].show);
 var polygonThree = L.polygon([
-    
+
     [48.809103, 2.118224],
     [48.807829, 2.123167],
     [48.806186, 2.122239],
@@ -771,33 +839,120 @@ var polygonThree = L.polygon([
 }).addTo(mymap);
 
 
-function mapLocation(location){
 
-    if (location=="Orangery")
-    {
-        polygonOrangery.remove(); 
-    }else if (location=="Apollo s fountain")
-    {
-        polygonApolo.remove(); 
-    }else if (location=="Obelisk Grove")
-    {
-        polygonObelisk.remove(); 
-    }else if (location=="Star Grove")
-    {
-        polygonStar.remove(); 
-    }else if (location=="Queen s Grove")
-    {
-        polygonQueens.remove(); 
-    }else if (location=="Grove of the Three fountains")
-    {
-        polygonThree.remove(); 
-    }else if (location=="Mirror Pool")
-    {
-        polygonMiroir.remove(); 
+function mapLocation(location) {
+    markerApolo.addTo(mymap);
+    markerMiroir.addTo(mymap); 
+    markerObelisk.addTo(mymap); 
+    markerOrangery.addTo(mymap); 
+    markerQueens.addTo(mymap); 
+    markerStar.addTo(mymap); 
+    markerThree.addTo(mymap); 
+    markerFlyer.addTo(mymap); 
+    markerIce.addTo(mymap); 
+    markerLatona.addTo(mymap); 
+    markerUser.remove();
+    if (location == "Orangery") 
+        {
+        grove="Orangery";
+        markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
+        markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
+        markerOrangery.remove(); 
+        polygonOrangery.remove();
+    } else if (location == "Apollo s fountain") {
+        grove="Apollo s fountain";
+        markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
+        markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
+        polygonApolo.remove();
+        markerApolo.remove();
+    } else if (location == "Obelisk Grove") {
+
+        grove="Obelisk Grove";
+        markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
+        markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
+        polygonObelisk.remove();
+        markerObelisk.remove(); 
+
+    } else if (location == "Star Grove") {
+        grove="Star Grove";
+        markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
+        markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
+        polygonStar.remove();
+        markerStar.remove(); 
+    } else if (location == "Queen s Grove") {
+        grove="Queen s Grove";
+        markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
+        markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
+        polygonQueens.remove();
+        markerQueens.remove(); 
+    } else if (location == "Grove of the Three fountains") {
+        grove="Grove of the Three fountains";
+        markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
+        markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
+        polygonThree.remove();
+        markerThree.remove(); 
+    } else if (location == "Mirror Pool") {
+        grove="Mirror Pool";
+        markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
+        markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
+        polygonMiroir.remove();
+        markerMiroir.remove(); 
     }
-  
-}
+    else if (location == "Latona fountain") {
+        grove="Latona fountain";
+        markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
+        markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
+        markerLatona.remove(); 
+    }else if (location == "Flyer") {
+        grove="Flyer";
+        markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
+        markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
+        markerFlyer.remove(); 
+    }else if (location == "Ice cream seller") {
+        grove="Ice cream seller";
+        markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
+        markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
+        markerIce.remove(); 
+    }
 
+
+
+
+
+
+
+    /* for (grove in place) {
+        var icone;
+         
+        // console.log("here")
+ 
+         if (grove==location){
+             //icone.iconUrl='user.png'
+             console.log(location)
+             icone = L.icon({
+             iconUrl: 'user.png',
+             iconSize: [50, 50],
+             iconAnchor: [25, 50],
+             popupAnchor: [0, -50]
+         })
+         }
+         else{
+             icone = L.icon({
+                 iconUrl: place[grove].iconPlace,
+                 iconSize: [50, 50],
+                 iconAnchor: [25, 50],
+                 popupAnchor: [0, -50]
+             })
+         }
+        
+         //marker and popup
+      
+            marker = L.marker([place[grove].lat, place[grove].lon], { icon: icone }).addTo(mymap);
+             marker.bindPopup("<b>" + grove + "</b> <br> prochain spectacle");
+            
+     }*/
+
+}
 
 displaysTimer();
 startGame()
