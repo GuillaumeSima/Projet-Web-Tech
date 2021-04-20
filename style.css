@@ -60,7 +60,7 @@ body{
 
 .menu{
     width: 20%;
-    height: 50%;
+    height: 65%;
     background-color: brown;
     float: left;
    
@@ -69,12 +69,40 @@ body{
 .timer{
     background-color: coral;
     color: white;
+    height: 10%;
+    margin-top: 5%;
+    padding-top: 5%;
     border-bottom: 1px solid black;
+    position:relative;
+}
+
+.timerImg{
+   float: left; 
+    width: 50%;
+
+}
+#timerNbr{
+    float: left;
+margin-left: -10%;
+
 }
 .wallet{
-    margin-top: 10%;
     height: 10%;
+    margin-top: 2%;
+    padding-top: 2%;
+    padding-bottom: 3%;
+    vertical-align: top;
     background-color:cyan;
+    position: relative;
+}
+
+.walletImg{
+    width: 50%;
+    float: left;
+}
+.walletSolde{
+    float: left;
+    margin-left: -10%;
 }
 
 
@@ -82,7 +110,7 @@ body{
     margin-top: 10%;
     background-color:blue;
     float: right;
-    height: 70%;
+    height: 50%;
     width: 100%;
 }
 
@@ -219,3 +247,94 @@ height: 100%;
     border: none;
    
     }
+
+
+    #IceCreamSeller{
+
+        /*padding: px;*/
+       
+        height: 200px;
+       /* display: flex;*/
+        flex-direction: column;
+        /*justify-content: center;*/
+       
+        
+    }
+    
+    #form{
+    height: 300px;
+   
+    background-color: indigo;
+    
+    }
+    
+    .menuFormat{
+        width: fit-content;
+        float: left;
+    /*200px*/
+    }
+    .menuFlavors{
+        width:fit-content;
+        float: left;
+    }
+    .menuSauce{
+        width: fit-content;
+        float: left;
+    }
+    .menuExtras{
+        width: fit-content;
+        float: left;
+    }
+    .group{
+    
+        padding:0px 48px;
+        text-align: left;
+        /*margin: 8px;*/
+        /*width: 30px;
+       /* height: 300px;  */
+       
+      }
+    input[type="radio"]{
+        display: none;
+    }
+    input[type="checkbox"]{
+        display:none; 
+      }
+    
+      label{
+        position: relative;
+      }
+      
+      label::before{
+        content: "";
+        background: url("check_circle.png");
+        background-position:center;
+        background-size: contain;
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        left:-44px;
+        top:-8px;
+    
+        transform: scale(0) rotateZ(360deg);
+        transition: all 0.4s cubic-bezier(0.54, 0.01,0,1.49);
+      }
+    
+      input[type="checkbox"]:checked+label::before{
+        transform: scale(1) rotateZ(0deg);
+      }
+      input[type="radio"]:checked+label::before{
+        transform: scale(1) rotateZ(0deg);
+      }
+    
+      label::after{
+    
+        content: "";
+        border: 2px solid #27ae60;
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        left: -42px;
+        top:-6px; 
+        border-radius: 50%;
+      }

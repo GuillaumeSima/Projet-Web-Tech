@@ -20,7 +20,7 @@ var end = 0;
 
 
 //timer
-var timerDiv = document.querySelector('.timer')
+var timerDiv = document.getElementById("timerNbr")
 const startingHours = 2;
 const stopGame = 5;
 let time = 0;
@@ -32,13 +32,13 @@ var state = {}
 
 function startGame() {
 
-    state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet: 10, daughter: false }
+    state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet: 10, daughter: false, iceCreamSeller:false }
     //timer starting
     time = startingHours * 3600;
     // north.onclick(selectCompass);
     //hidde the map
     document.getElementById('mapCastle').style.visibility = 'hidden';
-
+    document.getElementById('IceCreamSeller').style.display = 'none';
     //display the first text 
     showTextNode(1)
 }
@@ -73,6 +73,13 @@ function showTextNode(textNodeIndex) {
     //display compass neighbors 
     var neighbors = textNode.neighbors;
 
+    if (textNode.id==2) {
+        console.log("here")
+        document.getElementById('IceCreamSeller').style.display = 'block';
+        }
+        else{
+            document.getElementById('IceCreamSeller').style.display = 'none';
+        }
     //console.table(neighbors); 
     for (let i in neighbors) {
 
@@ -183,7 +190,7 @@ function showOption(option) {
 }
 
 function selectOption(option) {
-    const nextTextNodeId = option.nextText
+    let nextTextNodeId = option.nextText
     if (nextTextNodeId <= 0) {
         return startGame()
     }
@@ -191,12 +198,40 @@ function selectOption(option) {
     state = Object.assign(state, option.setState)
     
     if (state.flyer) {
-document.getElementById('mapCastle').style.visibility = 'visible';
+    document.getElementById('mapCastle').style.visibility = 'visible';
     }
 
 
     if (option.buy) {
         state.soldeWallet -= option.buy;
+    }
+    if (option.text=='Buy'){
+       
+        var cheekBox = document.getElementsByName("icecream");
+       
+
+            let check = false;
+            for (i = 0; i < cheekBox.length; i++) {
+                if (cheekBox[i].checked) {
+                    check = true;
+                }
+            }
+            if (check) {
+               
+                if (state.soldeWallet-totalPrice<0){
+                    document.getElementById("erreurSelect").innerHTML="you don't have enough money";  
+                    nextTextNodeId=2;
+                }else{ 
+                  
+                     state.soldeWallet -= totalPrice;
+                }
+             
+
+            }
+            else {  
+                document.getElementById("erreurSelect").innerHTML="you need to select an ice cream format";
+               nextTextNodeId=2;
+            }
     }
 
     showTextNode(nextTextNodeId)
@@ -209,6 +244,7 @@ function selectCompass() {
     state.talkEnd = false;
     state.talkEnd2 = false;
     const textNode = textNodes.find(textNode => textNode.location === this.innerHTML)
+   
     showTextNode(textNode.id)
     //alert("Button clicked, id " + this.id + ", text" + this.innerHTML);
 }
@@ -225,6 +261,7 @@ const textNodes = [
         options: [
             {
                 text: 'Go to the ice cream seller',
+                setState: { iceCreamSeller:true },
                 nextText: 2
             }
         ]
@@ -235,18 +272,17 @@ const textNodes = [
         neighbors: { north: false, south: 'Queen s Grove', east: 'Orangery', west: 'Latona fountain' },
         north: 50,
         time: 500,
-        text: 'question 2.',
+        text: '',
         dialog: "",
         options: [
             {
                 text: 'Buy',
-                requiredState: (currentState) => (currentState.soldeWallet > 2),
-                buy: 3,
+                setState: { iceCreamSeller: false },
                 nextText: 3
             },
             {
                 text: 'Do not buy',
-
+                setState: { iceCreamSeller: false },
                 nextText: 3
             }
         ]
@@ -419,7 +455,7 @@ const textNodes = [
         neighbors: { north: 'Grove of the Three fountains', south: 'Apollo s fountain', east: 'Latona fountain', west: 'Obelisk Grove' },
         north: 10,
         time: 500,
-        text: 'You are now in the front of the entrance to the Star Grove.\nYou see a poster where it is written:\n\n< It is a paying grove,\nIt is $10 to visit.\nIt is free for children.\nFor foreigners, discounts at the Queen s Grove.>',
+        text: 'You are now in the front of the entrance to the Star Grove.\nYou see a poster where it is written:\n\n< It is a paying grove,\nIt is £10 to visit.\nIt is free for children.\nFor foreigners, discounts at the Queen s Grove.>',
         dialog: '',
         options: [
             {
@@ -953,6 +989,82 @@ function mapLocation(location) {
      }*/
 
 }
+
+
+/////////Ice cream seller
+var totalPrice = 0;
+
+        function updateTotal() {
+            var optionPrice = 0;
+            var saucePrice = 0;
+            var flavorsPrice = 0;
+            var extrasPrice = 0;
+
+
+            function checkIceCream() {
+                if (document.getElementById('cone').checked) {
+                    // document.getElementById('imgshirt').src='flavor3.jpg';
+                    optionPrice += 1.5;
+                }
+                if (document.getElementById('cup').checked) {
+                    //  document.getElementById('imgshirt').src='flavor2.jpg';
+                    optionPrice += 1;
+                }
+
+            }
+
+
+            function checkFlavors() {
+                var cheekBoxFlavors = document.getElementsByName("flavors");
+
+                for (i = 0; i < cheekBoxFlavors.length; i++) {
+                    if (cheekBoxFlavors[i].checked) {
+                        flavorsPrice += 1;
+                    }
+                }
+
+            }
+
+            function checkSauce() {
+
+                if (document.getElementById('sauce').value != 'none') {
+                    saucePrice += 0.5;
+                }
+
+            }
+
+
+            function checkExtras() {
+                var cheekBoxExtras = document.getElementsByName("extras");
+
+                for (i = 0; i < cheekBoxExtras.length; i++) {
+                    if (cheekBoxExtras[i].checked) {
+                        extrasPrice += 0.25;
+                    }
+                }
+
+            }
+
+            checkIceCream();
+            checkFlavors();
+            checkSauce();
+            checkExtras();
+
+            totalPrice = optionPrice + saucePrice + flavorsPrice + extrasPrice;
+            document.getElementById('optionPrice').innerHTML = "£ " + optionPrice;
+            document.getElementById('flavorsPrice').innerHTML = "£ " + flavorsPrice;
+            document.getElementById('saucePrice').innerHTML = "£ " + saucePrice;
+            document.getElementById('extrasPrice').innerHTML = "£ " + extrasPrice;
+            document.getElementById('totalPrice').innerHTML = "£ " + totalPrice;
+
+
+        }
+
+
+
+
+
+
 
 displaysTimer();
 startGame()
