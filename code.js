@@ -32,7 +32,7 @@ var state = {}
 
 function startGame() {
 
-    state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet: 10, daughter: false, iceCreamSeller:false }
+    state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet: 10, daughter: false, iceCreamSeller:false, timer:true, money:true }
     //timer starting
     time = startingHours * 3600;
     // north.onclick(selectCompass);
@@ -232,6 +232,10 @@ function selectOption(option) {
                 document.getElementById("erreurSelect").innerHTML="you need to select an ice cream format";
                nextTextNodeId=2;
             }
+    }
+    if(nextTextNodeId==14){
+       
+        endGame(); 
     }
 
     showTextNode(nextTextNodeId)
@@ -462,6 +466,7 @@ const textNodes = [
                 text: 'Buy ticket',
                 buy: 10,
                 requiredState: (currentState) => (currentState.pass == false && currentState.soldeWallet >= 10),
+                setState: { pass: true },
                 nextText: 9
             },
             {
@@ -495,9 +500,15 @@ const textNodes = [
             },
             {
                 text: 'Do not buy',
-
+                requiredState: (currentState) => (currentState.soldeWallet >= 3 && currentState.pass == false),
                 nextText: 7
             },
+            {
+                text: 'The game is over',
+                requiredState: (currentState) => (currentState.pass == false  && currentState.soldeWallet < 3),
+                setState: { money: false },
+                nextText: 14
+            }
 
         ]
     },
@@ -542,7 +553,6 @@ const textNodes = [
         options: [
             {
                 text: 'Exit',
-
                 nextText: 14
             }
 
@@ -573,6 +583,7 @@ const textNodes = [
 
 btn.onclick = function () {
     nav.classList.toggle('nav_open');
+  
 }
 
 var displaysTimer = function () {
@@ -590,7 +601,8 @@ var displaysTimer = function () {
     setTimeout(displaysTimer, 500);
 
     if (time >= stopGame * 3600) {
-        showTextNode(14)
+        state.timer=false; 
+        endGame(); 
     }
     else {
         time++;
@@ -1062,7 +1074,30 @@ var totalPrice = 0;
 
 
 
+function endGame(){
+    
 
+    if (state.timer==false){
+    sessionStorage.setItem("gameResult", "GAME OVER"); 
+    sessionStorage.setItem("explication", "You are not out of the gardens before closing !");
+    }
+    else if (state.daughter==false && state.money==true){
+        sessionStorage.setItem("gameResult", "GAME OVER"); 
+         sessionStorage.setItem("explication", "You left the gardens without your daughter !");
+    }
+    else if (state.money==false){
+        sessionStorage.setItem("gameResult", "GAME OVER");  
+        sessionStorage.setItem("explication", "You have no more money to pay for a pass !");
+    }
+    else{
+         sessionStorage.setItem("gameResult", "WINNER");
+         sessionStorage.setItem("explication", "Congratulations you and your daughter came out of the Royal Grove unscathed !");
+    }
+   
+   
+
+    location.href = "end.html";
+}
 
 
 
