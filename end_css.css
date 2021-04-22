@@ -13,6 +13,8 @@ body{
 
 
 .titlePart{
+    margin-top: 100px;
+    margin-bottom: 150px;
     position:relative; 
     height:100px;
 }
@@ -35,10 +37,33 @@ color: goldenrod;
 
 }
 
+.result{
+
+    animation: text 3s 1;
+    color: brown;
+    font-size: 320%;
+}
 
 
+@keyframes text{
+    0%{
+        color: black;
+        margin-bottom: -40%;
+    }
+    30%{
+        letter-spacing: 25px;
+        margin-bottom: -40px;
+    }
+    85%{
+        letter-spacing: 8px;
+        margin-bottom: -40px;
+    }
+}
 
-
+.explication{
+    font-size: 120%;
+    margin-bottom: 200px;
+}
 
 .btn{
    /* background-color: hsl(200, 100%, 50%);*/
@@ -55,3 +80,21 @@ color: goldenrod;
 .btn:hover{
     border-color: black;
 }
+
+p {
+    animation-duration: 3s;
+    animation-name: slidein;
+  }
+  
+  @keyframes slidein {
+    from {
+      margin-left: 100%;
+      width: 300%;
+    }
+  
+    to {
+      margin-left: 0%;
+      width: 100%;
+    }
+  }
+

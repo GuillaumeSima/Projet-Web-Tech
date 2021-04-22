@@ -8,5 +8,16 @@ document.getElementById('btnRestart').onclick = function() {
 var result = sessionStorage.getItem('gameResult');
 var explication = sessionStorage.getItem('explication');
 
-resultElement.innerText=result; 
+if(result=="GAME OVER")
+{
+    resultElement.innerText=result; 
+    resultElement.style.color="red";
+}
+else if (result=="WINNER")
+{
+    resultElement.innerText=result; 
+    resultElement.style.color="green";
+}
+
+
 explicationElement.innerText=explication; 

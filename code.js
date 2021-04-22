@@ -661,16 +661,16 @@ function rotateAnimation(el, speed) {
 /////////////////  MAP PART ////////
 
 var place = {
-    "Latona fountain": { "lat": 48.805811, "lon": 2.116585, "iconPlace": 'latona_fountain_icon.png', "show": "prochain spectacle" },
-    "Ice cream seller": { "lat": 48.804475, "lon": 2.118645, "iconPlace": 'ice_cream_icon.png', "show": "prochain spectacle" },
-    "Orangery": { "lat": 48.802241, "lon": 2.118399, "iconPlace": 'orangery_icon.png', "show": "prochain spectacle" },
-    "Flyer": { "lat": 48.806618, "lon": 2.113625, "iconPlace": 'flyer_icon.png', "show": "prochain spectacle" },
-    "Apollo s fountain": { "lat": 48.807341, "lon": 2.109730, "iconPlace": 'apollo_icon.png', "show": "prochain spectacle" },
-    "Obelisk Grove": { "lat": 48.808468, "lon": 2.113951, "iconPlace": 'obelisk_icon.png', "show": "prochain spectacle" },
-    "Star Grove": { "lat": 48.807932, "lon": 2.116511, "iconPlace": 'star_grove_icon.png', "show": "prochain spectacle" },
-    "Grove of the Three fountains": { "lat": 48.807051, "lon": 2.120571, "iconPlace": 'three_fountain_icon.png', "show": "prochain spectacle" },
-    "Queen s Grove": { "lat": 48.803067, "lon": 2.116001, "iconPlace": 'queens_grove_icon.png', "show": "prochain spectacle" },
-    "Mirror Pool": { "lat": 48.803907, "lon": 2.111355, "iconPlace": 'miroir_pool_icon.png', "show": "prochain spectacle" }
+    "Latona fountain": { "lat": 48.805811, "lon": 2.116585, "iconPlace": 'drawlable/latona_fountain_icon.png', "show": "prochain spectacle" },
+    "Ice cream seller": { "lat": 48.804475, "lon": 2.118645, "iconPlace": 'drawlable/ice_cream_icon.png', "show": "prochain spectacle" },
+    "Orangery": { "lat": 48.802241, "lon": 2.118399, "iconPlace": 'drawlable/orangery_icon.png', "show": "prochain spectacle" },
+    "Flyer": { "lat": 48.806618, "lon": 2.113625, "iconPlace": 'drawlable/flyer_icon.png', "show": "prochain spectacle" },
+    "Apollo s fountain": { "lat": 48.807341, "lon": 2.109730, "iconPlace": 'drawlable/apollo_icon.png', "show": "prochain spectacle" },
+    "Obelisk Grove": { "lat": 48.808468, "lon": 2.113951, "iconPlace": 'drawlable/obelisk_icon.png', "show": "prochain spectacle" },
+    "Star Grove": { "lat": 48.807932, "lon": 2.116511, "iconPlace": 'drawlable/star_grove_icon.png', "show": "prochain spectacle" },
+    "Grove of the Three fountains": { "lat": 48.807051, "lon": 2.120571, "iconPlace": 'drawlable/three_fountain_icon.png', "show": "prochain spectacle" },
+    "Queen s Grove": { "lat": 48.803067, "lon": 2.116001, "iconPlace": 'drawlable/queens_grove_icon.png', "show": "prochain spectacle" },
+    "Mirror Pool": { "lat": 48.803907, "lon": 2.111355, "iconPlace": 'drawlable/miroir_pool_icon.png', "show": "prochain spectacle" }
 
 };
 
@@ -709,7 +709,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
 }*/
 
 var iconUser = L.icon({
-    iconUrl: 'user.png',
+    iconUrl: 'drawlable/user.png',
     iconSize: [50, 50],
     iconAnchor: [25, 50],
     popupAnchor: [0, -50]

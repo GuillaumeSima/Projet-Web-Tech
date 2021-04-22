@@ -22,7 +22,24 @@ body{
     z-index:1 ;
     left: 50%;
     transform: translate(-50%, -40%);
+    animation: animateborder 5s linear; 
 }
+@keyframes animateborder{
+     0% {
+         top: -500%;
+       }
+       50% {
+       
+         top:50%;
+       }
+       75%{
+          top:0%
+          
+       }
+       100% {
+       
+       }
+ }
 
 .title{
 position:absolute;
@@ -34,7 +51,34 @@ transform: translate(-50%, -23%);
 color: goldenrod;
 font-style: italic;
 
+animation: animatetitle 3s linear; 
+
+
 }
+
+@keyframes animatetitle{
+   /* 0%{
+        transform:rotate(0) ;
+    }
+    100%{
+        transform: rotate(59);
+    }*/
+    0% {
+        left: -100%;
+      }
+      50% {
+        left: 51%;
+        top:10%;
+      }
+      75%{
+          left: 45%;
+          top:5%
+      }
+      100% {
+        left: 50%;
+      }
+}
+
 #btn-read{
 
     margin-top: 240px;
@@ -63,9 +107,12 @@ font-style: italic;
    padding: 5px 50px;
    
     color: white;
+   
     
 }
 
 .btn:hover{
     border-color: black;
 }
+
+
