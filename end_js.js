@@ -1,3 +1,5 @@
-const restartbtn=document.getElementById('restart'); 
 
-restartbtn.addEventListener('onclick', )
+
+document.getElementById('btnRestart').onclick = function() {
+    location.href="index.html";
+};
