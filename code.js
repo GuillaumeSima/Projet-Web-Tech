@@ -585,7 +585,7 @@ var displaysTimer = function () {
     minutes = minutes < 10 ? '0' + minutes : minutes;
     seconds = seconds < 10 ? '0' + seconds : seconds;
     //display in Div 
-    timerDiv.textContent = hours + ":" + minutes + ":" + seconds + "PM";
+    timerDiv.textContent = hours + " : " + minutes + " : " + seconds + " PM";
     //launch displaysTimer every 500ms, every half secondes
     setTimeout(displaysTimer, 500);
 
@@ -642,7 +642,7 @@ function rotateAnimation(el, speed) {
 
 
 
-    document.getElementById("status").innerHTML = "rotate(" + degrees + "deg)";
+   // document.getElementById("status").innerHTML = "rotate(" + degrees + "deg)";
 }
 
 

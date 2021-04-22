@@ -3,10 +3,44 @@ body{
     margin:0px; 
     padding:0px; 
     text-align: center; 
-    background-color:grey; 
-    font-family: Arial, Helvetica, sans-serif;
+    background-color:grey;
+    /*font-family: Arial, Helvetica, sans-serif;*/
+    font-family: Snell Roundhand;
+    font-style: italic;
 
+}
+.titlePart{
+    position:relative; 
+    height:100px;
+}
 
+.borderTitle{
+    position:absolute;
+    z-index:1 ;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.title{
+position:absolute;
+top:22px; 
+z-index:2;
+font-size:100% ;
+left: 50%;
+transform: translate(-50%, 0%); 
+color: goldenrod;
+
+}
+
+.storyPart{
+    position:relative;
+}
+
+.borderStory{
+    position:absolute;
+    z-index:1 ;
+    left: 51%;
+    transform: translate(-50%,-11%);
 }
 
 .container{
@@ -17,38 +51,56 @@ body{
 
 .partOne{
  
- width: 80%;
- height: 70%;
+ width: 78%;
+ height: 100%;
  float: left;
+
+
 }
 
 .story{
-   width: 90%;
+  width: 90%;
    margin-left: 5%;
    margin-top:5%;
-    height: 70%;
-    background-color: white;
+   height: 300px;
+   position:absolute;
+   z-index:2;
+   color: white;
+/*background-color: ivory;*/
+/* border-image-source: url("deco.png");
+    border-image-slice: 50;
     padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px 2px;
+   /* border: 5px solid transparent;
+   /* box-shadow: 0 0 10px 2px;*/
    
 }
+/*
+.border2{
+   
+    
+}*/
 
 #location{
-    color:purple;
+    color:hsl(300,100%,25%);
+    font-size: x-large;
 }
 .btn-grid{
     display: grid;
     grid-template-columns: repeat(2,auto);
     gap:10px; 
-    margin-top: 20px;
+    margin-top: 15px;
+ 
+    justify-content: center;
 }
 
 .btn{
-    background-color: hsl(200, 100%, 50%);
-    border: 1px solid hsl(200, 100%, 30%);
+   /* background-color: hsl(200, 100%, 50%);*/
+    background-color:rgb(186,85,211);
+    /*border: 1px solid hsl(200, 100%, 30%);*/
+    border: 1px solid rgb(186,85,211, 0.6);
     border-radius: 5px;
-    padding: 5px 10px;
+   padding: 5px 50px;
+   
     color: white;
     outline: none;
 }
@@ -59,41 +111,48 @@ body{
 
 
 .menu{
-    width: 20%;
-    height: 65%;
-    background-color: brown;
+    width: 22%;
+    height: 100%;
+
     float: left;
    
 } 
 
 .timer{
-    background-color: coral;
-    color: white;
-    height: 10%;
+   
+    color: goldenrod;
+    height: 5%;
     margin-top: 5%;
     padding-top: 5%;
-    border-bottom: 1px solid black;
+    margin-left: 1%;
+    margin-right: 1%;
+    
     position:relative;
+    border: 3mm ridge rgb(218,165,32, 0.8);
 }
 
 .timerImg{
    float: left; 
     width: 50%;
+    margin-left: -5%;
 
 }
 #timerNbr{
     float: left;
-margin-left: -10%;
+margin-left: -18%;
+font-size: x-large;
+font-family: OCR A Std, monospace;
 
 }
 .wallet{
-    height: 10%;
+    height: 5%;
     margin-top: 2%;
-    padding-top: 2%;
-    padding-bottom: 3%;
+    padding-top: 5%;
+    /*padding-bottom: 3%;*/
     vertical-align: top;
-    background-color:cyan;
+ 
     position: relative;
+    color: goldenrod;
 }
 
 .walletImg{
@@ -103,30 +162,41 @@ margin-left: -10%;
 .walletSolde{
     float: left;
     margin-left: -10%;
+    margin-top: -7%;
+    font-size: x-large;
+font-family: OCR A Std, monospace;  
+border-bottom: 3px double goldenrod;
+
+
 }
 
 
 .objects{
     margin-top: 10%;
-    background-color:blue;
+    background-color:#949494;
     float: right;
-    height: 50%;
+    height: 30%;
     width: 100%;
+    font-size: x-large;
+    font-family: OCR A Std, monospace;
+    border-radius: 20px 10px 30px 10px;
+    box-shadow: 12px 4px 0px 1px goldenrod;
 }
 
 .button-objects{
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
     position: relative;
     cursor: pointer;
-   
-    margin-left: 10px;
+   color: goldenrod;
+    margin-left: 20px;
    
 }
 
 .button-objects span{
     height: 3px;
-    background-color: #2c3e50;
+    /*background-color: #2c3e50;*/
+    background-color: goldenrod;
     width: 100%;
     position: absolute;
     top: 20px;
@@ -135,7 +205,7 @@ margin-left: -10%;
 .button-objects span:before{
     content: '';
     height: 3px;
-    background-color: #2c3e50;
+    background-color:goldenrod;
     width: 100%;
     position: absolute;
     top: -10px;
@@ -144,7 +214,7 @@ margin-left: -10%;
 .button-objects span:after{
     content: '';
     height: 3px;
-    background-color: #2c3e50;
+    background-color: goldenrod;
     width: 100%;
     position: absolute;
     top: 10px;
@@ -159,6 +229,7 @@ height: 100%;
 }
 
 .menu-objects a{
+    text-transform: capitalize;
     color: white;
     text-align: center;
     text-decoration: none;
@@ -180,41 +251,59 @@ height: 100%;
 
 .partTwo{
    
+
+  
     width: 100%;
-    height: 100%;
+    height: 29%;
+    margin-top: 37%;
+    margin-left: 11%;
+  
+    
 }
 .map{
   
-   width: 50%;
-   height: 30%;
-      background-color:blueviolet;
+   width: 100%;
+   height: 50%;
+   margin-top: 10%;
+ 
     float: left;
 }
 #mapCastle {
     height: 100%;
-    width: 35%;
-    left: 25%;
+    width:100%;
+   /* left: 25%;
    /* display: none;*/
     background-color: black;
 }
 
 
 .compassMenu{
-    width: 50%;
-    height: 30%;
-   background-color:burlywood;
+    margin-left: 5%;
+    width: 70%;
+    height: 35%;
+    position: relative;
     float: left;
+}
+
+.borderCompass{
+    position:absolute;
+    z-index:1 ;
+    left: 50%;
+    transform: translate(-50%, 0%);
 }
 
 .compass {
     position: relative;
-    margin-top: 50px;
-    margin-left: 40%;
+    z-index: 2;
+    /*margin-top: 50px;*/
+   /* margin-left: 40%;*/
     border-radius: 50%;
     height: 150px;
     width: 150px;
-    background-color: cornflowerblue;
+    background-color:goldenrod;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    left: 50%;
+    transform: translate(-50%, 50%);
     
   }
 
@@ -241,7 +330,9 @@ height: 100%;
     }
 
   .circle {
-    background: linear-gradient( red, yellow, blue, orange);
+    color:black;
+    font-size:10px;
+    background: linear-gradient( yellow, orange);
     border-radius: 50%;
     position: absolute;
     border: none;
@@ -253,24 +344,40 @@ height: 100%;
 
         /*padding: px;*/
        
-        height: 200px;
+      /*  height: 200px;*/
+     
        /* display: flex;*/
         flex-direction: column;
         /*justify-content: center;*/
-       
+        /*justify-content: center;*/ 
+     
+        
         
     }
     
     #form{
-    height: 300px;
+    height: 270px;
+       /* text-align: center;*/
+    /*background-color: indigo;*/
    
-    background-color: indigo;
-    
+   /* left: 50%;*/
+  
     }
-    
+    .headIce{
+           
+           border: dashed;
+        
+             margin-left: 39%;
+           width: 250px;
+        
+
+        
+        
+    }
     .menuFormat{
         width: fit-content;
         float: left;
+        padding-left: 75px;
     /*200px*/
     }
     .menuFlavors{
@@ -337,4 +444,8 @@ height: 100%;
         left: -42px;
         top:-6px; 
         border-radius: 50%;
+      }
+
+      #erreurSelect{
+          color: red;
       }
