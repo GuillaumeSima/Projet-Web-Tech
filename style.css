@@ -4,7 +4,6 @@ body{
     padding:0px; 
     text-align: center; 
     background-color:grey;
-    /*font-family: Arial, Helvetica, sans-serif;*/
     font-family: Snell Roundhand;
     font-style: italic;
 
@@ -66,19 +65,10 @@ color: goldenrod;
    position:absolute;
    z-index:2;
    color: white;
-/*background-color: ivory;*/
-/* border-image-source: url("deco.png");
-    border-image-slice: 50;
-    padding: 10px;
-   /* border: 5px solid transparent;
-   /* box-shadow: 0 0 10px 2px;*/
+
    
 }
-/*
-.border2{
-   
-    
-}*/
+
 
 #location{
     color:hsl(300,100%,25%);
@@ -94,9 +84,8 @@ color: goldenrod;
 }
 
 .btn{
-   /* background-color: hsl(200, 100%, 50%);*/
+   
     background-color:rgb(186,85,211);
-    /*border: 1px solid hsl(200, 100%, 30%);*/
     border: 1px solid rgb(186,85,211, 0.6);
     border-radius: 5px;
    padding: 5px 50px;
@@ -148,9 +137,7 @@ font-family: OCR A Std, monospace;
     height: 5%;
     margin-top: 2%;
     padding-top: 5%;
-    /*padding-bottom: 3%;*/
     vertical-align: top;
- 
     position: relative;
     color: goldenrod;
 }
@@ -195,7 +182,6 @@ border-bottom: 3px double goldenrod;
 
 .button-objects span{
     height: 3px;
-    /*background-color: #2c3e50;*/
     background-color: goldenrod;
     width: 100%;
     position: absolute;
@@ -271,8 +257,6 @@ height: 100%;
 #mapCastle {
     height: 100%;
     width:100%;
-   /* left: 25%;
-   /* display: none;*/
     background-color: black;
 }
 
@@ -295,8 +279,6 @@ height: 100%;
 .compass {
     position: relative;
     z-index: 2;
-    /*margin-top: 50px;*/
-   /* margin-left: 40%;*/
     border-radius: 50%;
     height: 150px;
     width: 150px;
@@ -321,11 +303,10 @@ height: 100%;
   }
 
   .outer {
-    /* Note: first half of animation duration is spent at 12 o'clock. */
     animation: rotate 2s ease-out 1;
     height: 60px;
     width: 60px;
-   left: 30%;  /*top/left equal to radius. */
+   left: 30%;  
     top: 31%;
     }
 
@@ -342,14 +323,8 @@ height: 100%;
 
     #IceCreamSeller{
 
-        /*padding: px;*/
-       
-      /*  height: 200px;*/
-     
-       /* display: flex;*/
         flex-direction: column;
-        /*justify-content: center;*/
-        /*justify-content: center;*/ 
+    
      
         
         
@@ -357,10 +332,7 @@ height: 100%;
     
     #form{
     height: 270px;
-       /* text-align: center;*/
-    /*background-color: indigo;*/
-   
-   /* left: 50%;*/
+      
   
     }
     .headIce{
@@ -378,7 +350,7 @@ height: 100%;
         width: fit-content;
         float: left;
         padding-left: 75px;
-    /*200px*/
+  
     }
     .menuFlavors{
         width:fit-content;
@@ -396,9 +368,7 @@ height: 100%;
     
         padding:0px 48px;
         text-align: left;
-        /*margin: 8px;*/
-        /*width: 30px;
-       /* height: 300px;  */
+       
        
       }
     input[type="radio"]{

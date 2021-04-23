@@ -4,9 +4,7 @@ body{
     padding:0px; 
     text-align: center; 
     background-color:grey;
-    /*font-family: Arial, Helvetica, sans-serif;*/
     font-family: Snell Roundhand;
-    /*font-style: italic;*/
     color: white;
 
 }
@@ -66,9 +64,8 @@ color: goldenrod;
 }
 
 .btn{
-   /* background-color: hsl(200, 100%, 50%);*/
+
     background-color:rgb(186,85,211);
-    /*border: 1px solid hsl(200, 100%, 30%);*/
     border: 1px solid rgb(186,85,211, 0.6);
     border-radius: 5px;
    padding: 5px 50px;

@@ -1,11 +1,14 @@
+//variable part story 
 const textElement = document.getElementById('text')
 const locationElement = document.getElementById('location')
 const optionElement = document.getElementById('option-buttons')
+//variable part menu objects
 const objectElement = document.getElementById('menu-objects')
 var btn = document.querySelector('.button-objects');
 var nav = document.querySelector('.nav');
+//variable part wallet 
 var solde = document.getElementById('solde');
-//compass
+//variable part compass
 var north = document.getElementById("north")
 north.onclick = selectCompass;
 var south = document.getElementById("south");
@@ -17,38 +20,36 @@ west.onclick = selectCompass;
 var looper;
 var degrees = 0;
 var end = 0;
-
-
-//timer
+//variable part timer
 var timerDiv = document.getElementById("timerNbr")
 const startingHours = 2;
 const stopGame = 5;
 let time = 0;
-
+//variable objects, dialog and end 
 var state = {}
-//var soldeWallet;
 
 
 
+//function that initialise the beginning of the game 
 function startGame() {
-
-    state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet: 10, daughter: false, iceCreamSeller:false, timer:true, money:true }
-    //timer starting
+    //initialise var state 
+    state = { orange: false, flyer: false, bag: false, pass: false, talk: false, talkEnd: false, talkEnd2: false, soldeWallet: 10, daughter: false, iceCreamSeller: false, timer: true, money: true }
+    //timer starting at 2 p.m
     time = startingHours * 3600;
-    // north.onclick(selectCompass);
     //hidde the map
     document.getElementById('mapCastle').style.visibility = 'hidden';
+    //hidden the ice cream menu 
     document.getElementById('IceCreamSeller').style.display = 'none';
     //display the first text 
     showTextNode(1)
 }
 
-//function that displays text and options 
+//function that displays text and options according to a number in parameter 
 function showTextNode(textNodeIndex) {
+    //recover a textNode objects 
     const textNode = textNodes.find(textNode => textNode.id === textNodeIndex)
+    //display the text following the situation 
     if (state.talk) {
-
-
         if (state.talkEnd) {
 
             if (state.talkEnd2) {
@@ -64,7 +65,7 @@ function showTextNode(textNodeIndex) {
 
     else {
         textElement.innerText = textNode.text
-        //turn compass
+        //turn compass to the angle end ,10 is the speed of the compass 
         end = textNode.north
         rotateAnimation("img1", 10);
     }
@@ -72,15 +73,14 @@ function showTextNode(textNodeIndex) {
     locationElement.innerText = textNode.location
     //display compass neighbors 
     var neighbors = textNode.neighbors;
-
-    if (textNode.id==2) {
-        console.log("here")
+    //if we are in the ice cream seller place, display the ice cream menu. Else we hide
+    if (textNode.id == 2) {
         document.getElementById('IceCreamSeller').style.display = 'block';
-        }
-        else{
-            document.getElementById('IceCreamSeller').style.display = 'none';
-        }
-    //console.table(neighbors); 
+    }
+    else {
+        document.getElementById('IceCreamSeller').style.display = 'none';
+    }
+    //display the neighbors name cirlce in the compass
     for (let i in neighbors) {
 
 
@@ -125,13 +125,6 @@ function showTextNode(textNodeIndex) {
 
 
     }
-    /* if (neighbors[0]=="north"){
-         console.log("here0"); 
-         Object.values(neighbors); 
-     }
- */
-
-
 
     //increase time
     time = time + textNode.time
@@ -143,8 +136,9 @@ function showTextNode(textNodeIndex) {
     while (objectElement.firstChild) {
         objectElement.removeChild(objectElement.firstChild)
     }
+    //display the options/choices buttons 
     textNode.options.forEach(option => {
-        //console.log(option.requiredState(state))
+        //if the required state is true 
         if (showOption(option)) {
             const button = document.createElement('button')
             button.innerText = option.text
@@ -152,11 +146,10 @@ function showTextNode(textNodeIndex) {
             button.addEventListener('click', () => selectOption(option))
             optionElement.appendChild(button)
 
-
         }
 
     });
-
+    //display objects un the object nav if they are recovered by the user 
     for (let i in state) {
 
         if (state[i]) {
@@ -172,87 +165,87 @@ function showTextNode(textNodeIndex) {
         }
     }
 
-    //soldeWallet++; 
+    // display the solde
     document.getElementById("solde").innerHTML = state.soldeWallet;
-    //soldeWallet=solde
-    console.log(state)
 
-    //display cursor and polygone
+    //call function mapLocation to display cursor and polygone in the map 
     mapLocation(textNode.location);
 
 
 }
-
+//function which controls the elements required to display a button 
 function showOption(option) {
-
-
     return option.requiredState == null || option.requiredState(state)
 }
-
+//function call if a button option/choice is click 
 function selectOption(option) {
+    //recover the next location 
     let nextTextNodeId = option.nextText
+    //end of the game 
     if (nextTextNodeId <= 0) {
         return startGame()
     }
     //edit var state
     state = Object.assign(state, option.setState)
-    
+    //display the map on the page 
     if (state.flyer) {
-    document.getElementById('mapCastle').style.visibility = 'visible';
+        document.getElementById('mapCastle').style.visibility = 'visible';
     }
-
-
+    //decrease the solde var 
     if (option.buy) {
         state.soldeWallet -= option.buy;
     }
-    if (option.text=='Buy'){
-       
+    //controle if the user has enough money and select the good format in the ice cream menu, 
+    if (option.text == 'Buy') {
+
         var cheekBox = document.getElementsByName("icecream");
-       
 
-            let check = false;
-            for (i = 0; i < cheekBox.length; i++) {
-                if (cheekBox[i].checked) {
-                    check = true;
-                }
-            }
-            if (check) {
-               
-                if (state.soldeWallet-totalPrice<0){
-                    document.getElementById("erreurSelect").innerHTML="you don't have enough money";  
-                    nextTextNodeId=2;
-                }else{ 
-                  
-                     state.soldeWallet -= totalPrice;
-                }
-             
 
+        let check = false;
+        for (i = 0; i < cheekBox.length; i++) {
+            if (cheekBox[i].checked) {
+                check = true;
             }
-            else {  
-                document.getElementById("erreurSelect").innerHTML="you need to select an ice cream format";
-               nextTextNodeId=2;
+        }
+        if (check) {
+
+            if (state.soldeWallet - totalPrice < 0) {
+                document.getElementById("erreurSelect").innerHTML = "you don't have enough money";
+                nextTextNodeId = 2;
+            } else {
+
+                state.soldeWallet -= totalPrice;
             }
+
+
+        }
+        else {
+            document.getElementById("erreurSelect").innerHTML = "you need to select an ice cream format";
+            nextTextNodeId = 2;
+        }
     }
-    if(nextTextNodeId==14){
-       
-        endGame(); 
-    }
+    //call function end 
+    if (nextTextNodeId == 14) {
 
+        endGame();
+    }
+    //start new location 
     showTextNode(nextTextNodeId)
 }
 
-
+//function if the user click on a compass button 
+//all diolog is handed at false 
 function selectCompass() {
 
     state.talk = false;
     state.talkEnd = false;
     state.talkEnd2 = false;
     const textNode = textNodes.find(textNode => textNode.location === this.innerHTML)
-   
+
     showTextNode(textNode.id)
-    //alert("Button clicked, id " + this.id + ", text" + this.innerHTML);
 }
 
+//constance which contains all information for a place 
 const textNodes = [
     {
         id: 1,
@@ -265,7 +258,7 @@ const textNodes = [
         options: [
             {
                 text: 'Go to the ice cream seller',
-                setState: { iceCreamSeller:true },
+                setState: { iceCreamSeller: true },
                 nextText: 2
             }
         ]
@@ -505,7 +498,7 @@ const textNodes = [
             },
             {
                 text: 'The game is over',
-                requiredState: (currentState) => (currentState.pass == false  && currentState.soldeWallet < 3),
+                requiredState: (currentState) => (currentState.pass == false && currentState.soldeWallet < 3),
                 setState: { money: false },
                 nextText: 14
             }
@@ -580,12 +573,12 @@ const textNodes = [
 
 ]
 
-
+//click on the object menu 
 btn.onclick = function () {
     nav.classList.toggle('nav_open');
-  
-}
 
+}
+//function which refresh the time 
 var displaysTimer = function () {
     let hours = Math.floor(time / 3600)
     let minutes = Math.floor(time / 60 % 60)
@@ -599,10 +592,10 @@ var displaysTimer = function () {
     timerDiv.textContent = hours + " : " + minutes + " : " + seconds + " PM";
     //launch displaysTimer every 500ms, every half secondes
     setTimeout(displaysTimer, 500);
-
+    //exceed the time of the game 
     if (time >= stopGame * 3600) {
-        state.timer=false; 
-        endGame(); 
+        state.timer = false;
+        endGame();
     }
     else {
         time++;
@@ -613,9 +606,9 @@ var displaysTimer = function () {
 
 
 
+////////////  COMPASS PART ///// 
 
-
-
+//function which move the compass 
 function rotateAnimation(el, speed) {
     var elem = document.getElementById(el);
 
@@ -651,10 +644,6 @@ function rotateAnimation(el, speed) {
         clearInterval(looper)
     }
 
-
-
-
-   // document.getElementById("status").innerHTML = "rotate(" + degrees + "deg)";
 }
 
 
@@ -689,32 +678,18 @@ L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
     attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM FRANCE</a>',
     maxZoom: 19,
     minZoom: 15,
-    //id: 'mapbox/streets-v11',
-    //tileSize: 512,
-    //zoomOffset: -1,
-    //  accessToken: 'your.mapbox.access.token'
 }).addTo(mymap);
 
+//inisialise polygon and icon for each place 
 
-/*for (grove in place) {
-
- 
-  //marker and popup
-  
- //  marker = L.marker([place[grove].lat, place[grove].lon], { icon: icone }).addTo(mymap);
-  //marker.bindPopup("<b>" + grove + "</b> <br> prochain spectacle");
-  
-  
-
-}*/
-
+//initialise icon user 
 var iconUser = L.icon({
     iconUrl: 'drawlable/user.png',
     iconSize: [50, 50],
     iconAnchor: [25, 50],
     popupAnchor: [0, -50]
 })
-grove="Latona fountain";
+grove = "Latona fountain";
 markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
 markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
 function icone(grove) {
@@ -887,214 +862,178 @@ var polygonThree = L.polygon([
 }).addTo(mymap);
 
 
-
+//function which display on the map 
 function mapLocation(location) {
     markerApolo.addTo(mymap);
-    markerMiroir.addTo(mymap); 
-    markerObelisk.addTo(mymap); 
-    markerOrangery.addTo(mymap); 
-    markerQueens.addTo(mymap); 
-    markerStar.addTo(mymap); 
-    markerThree.addTo(mymap); 
-    markerFlyer.addTo(mymap); 
-    markerIce.addTo(mymap); 
-    markerLatona.addTo(mymap); 
+    markerMiroir.addTo(mymap);
+    markerObelisk.addTo(mymap);
+    markerOrangery.addTo(mymap);
+    markerQueens.addTo(mymap);
+    markerStar.addTo(mymap);
+    markerThree.addTo(mymap);
+    markerFlyer.addTo(mymap);
+    markerIce.addTo(mymap);
+    markerLatona.addTo(mymap);
     markerUser.remove();
-    if (location == "Orangery") 
-        {
-        grove="Orangery";
+    //display user icon according to the location 
+    if (location == "Orangery") {
+        grove = "Orangery";
         markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
         markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
-        markerOrangery.remove(); 
+        markerOrangery.remove();
         polygonOrangery.remove();
     } else if (location == "Apollo s fountain") {
-        grove="Apollo s fountain";
+        grove = "Apollo s fountain";
         markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
         markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
         polygonApolo.remove();
         markerApolo.remove();
     } else if (location == "Obelisk Grove") {
 
-        grove="Obelisk Grove";
+        grove = "Obelisk Grove";
         markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
         markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
         polygonObelisk.remove();
-        markerObelisk.remove(); 
+        markerObelisk.remove();
 
     } else if (location == "Star Grove") {
-        grove="Star Grove";
+        grove = "Star Grove";
         markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
         markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
         polygonStar.remove();
-        markerStar.remove(); 
+        markerStar.remove();
     } else if (location == "Queen s Grove") {
-        grove="Queen s Grove";
+        grove = "Queen s Grove";
         markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
         markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
         polygonQueens.remove();
-        markerQueens.remove(); 
+        markerQueens.remove();
     } else if (location == "Grove of the Three fountains") {
-        grove="Grove of the Three fountains";
+        grove = "Grove of the Three fountains";
         markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
         markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
         polygonThree.remove();
-        markerThree.remove(); 
+        markerThree.remove();
     } else if (location == "Mirror Pool") {
-        grove="Mirror Pool";
+        grove = "Mirror Pool";
         markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
         markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
         polygonMiroir.remove();
-        markerMiroir.remove(); 
+        markerMiroir.remove();
     }
     else if (location == "Latona fountain") {
-        grove="Latona fountain";
+        grove = "Latona fountain";
         markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
         markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
-        markerLatona.remove(); 
-    }else if (location == "Flyer") {
-        grove="Flyer";
+        markerLatona.remove();
+    } else if (location == "Flyer") {
+        grove = "Flyer";
         markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
         markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
-        markerFlyer.remove(); 
-    }else if (location == "Ice cream seller") {
-        grove="Ice cream seller";
+        markerFlyer.remove();
+    } else if (location == "Ice cream seller") {
+        grove = "Ice cream seller";
         markerUser = L.marker([place[grove].lat, place[grove].lon], { icon: iconUser }).addTo(mymap);
         markerUser.bindPopup("<b>" + grove + "</b> <br> You are here");
-        markerIce.remove(); 
+        markerIce.remove();
     }
 
-
-
-
-
-
-
-    /* for (grove in place) {
-        var icone;
-         
-        // console.log("here")
- 
-         if (grove==location){
-             //icone.iconUrl='user.png'
-             console.log(location)
-             icone = L.icon({
-             iconUrl: 'user.png',
-             iconSize: [50, 50],
-             iconAnchor: [25, 50],
-             popupAnchor: [0, -50]
-         })
-         }
-         else{
-             icone = L.icon({
-                 iconUrl: place[grove].iconPlace,
-                 iconSize: [50, 50],
-                 iconAnchor: [25, 50],
-                 popupAnchor: [0, -50]
-             })
-         }
-        
-         //marker and popup
-      
-            marker = L.marker([place[grove].lat, place[grove].lon], { icon: icone }).addTo(mymap);
-             marker.bindPopup("<b>" + grove + "</b> <br> prochain spectacle");
-            
-     }*/
 
 }
 
 
-/////////Ice cream seller
+///////// Ice cream seller
 var totalPrice = 0;
-
-        function updateTotal() {
-            var optionPrice = 0;
-            var saucePrice = 0;
-            var flavorsPrice = 0;
-            var extrasPrice = 0;
-
-
-            function checkIceCream() {
-                if (document.getElementById('cone').checked) {
-                    // document.getElementById('imgshirt').src='flavor3.jpg';
-                    optionPrice += 1.5;
-                }
-                if (document.getElementById('cup').checked) {
-                    //  document.getElementById('imgshirt').src='flavor2.jpg';
-                    optionPrice += 1;
-                }
-
-            }
+//function which calculate and display the price 
+function updateTotal() {
+    var optionPrice = 0;
+    var saucePrice = 0;
+    var flavorsPrice = 0;
+    var extrasPrice = 0;
 
 
-            function checkFlavors() {
-                var cheekBoxFlavors = document.getElementsByName("flavors");
-
-                for (i = 0; i < cheekBoxFlavors.length; i++) {
-                    if (cheekBoxFlavors[i].checked) {
-                        flavorsPrice += 1;
-                    }
-                }
-
-            }
-
-            function checkSauce() {
-
-                if (document.getElementById('sauce').value != 'none') {
-                    saucePrice += 0.5;
-                }
-
-            }
-
-
-            function checkExtras() {
-                var cheekBoxExtras = document.getElementsByName("extras");
-
-                for (i = 0; i < cheekBoxExtras.length; i++) {
-                    if (cheekBoxExtras[i].checked) {
-                        extrasPrice += 0.25;
-                    }
-                }
-
-            }
-
-            checkIceCream();
-            checkFlavors();
-            checkSauce();
-            checkExtras();
-
-            totalPrice = optionPrice + saucePrice + flavorsPrice + extrasPrice;
-            document.getElementById('optionPrice').innerHTML = "£ " + optionPrice;
-            document.getElementById('flavorsPrice').innerHTML = "£ " + flavorsPrice;
-            document.getElementById('saucePrice').innerHTML = "£ " + saucePrice;
-            document.getElementById('extrasPrice').innerHTML = "£ " + extrasPrice;
-            document.getElementById('totalPrice').innerHTML = "£ " + totalPrice;
-
-
+    function checkIceCream() {
+        if (document.getElementById('cone').checked) {
+            // document.getElementById('imgshirt').src='flavor3.jpg';
+            optionPrice += 1.5;
+        }
+        if (document.getElementById('cup').checked) {
+            //  document.getElementById('imgshirt').src='flavor2.jpg';
+            optionPrice += 1;
         }
 
-
-
-function endGame(){
-    
-
-    if (state.timer==false){
-    sessionStorage.setItem("gameResult", "GAME OVER"); 
-    sessionStorage.setItem("explication", "You are not out of the gardens before closing !");
     }
-    else if (state.daughter==false && state.money==true){
-        sessionStorage.setItem("gameResult", "GAME OVER"); 
-         sessionStorage.setItem("explication", "You left the gardens without your daughter !");
+
+
+    function checkFlavors() {
+        var cheekBoxFlavors = document.getElementsByName("flavors");
+
+        for (i = 0; i < cheekBoxFlavors.length; i++) {
+            if (cheekBoxFlavors[i].checked) {
+                flavorsPrice += 1;
+            }
+        }
+
     }
-    else if (state.money==false){
-        sessionStorage.setItem("gameResult", "GAME OVER");  
+
+    function checkSauce() {
+
+        if (document.getElementById('sauce').value != 'none') {
+            saucePrice += 0.5;
+        }
+
+    }
+
+
+    function checkExtras() {
+        var cheekBoxExtras = document.getElementsByName("extras");
+
+        for (i = 0; i < cheekBoxExtras.length; i++) {
+            if (cheekBoxExtras[i].checked) {
+                extrasPrice += 0.25;
+            }
+        }
+
+    }
+
+    checkIceCream();
+    checkFlavors();
+    checkSauce();
+    checkExtras();
+
+    totalPrice = optionPrice + saucePrice + flavorsPrice + extrasPrice;
+    document.getElementById('optionPrice').innerHTML = "£ " + optionPrice;
+    document.getElementById('flavorsPrice').innerHTML = "£ " + flavorsPrice;
+    document.getElementById('saucePrice').innerHTML = "£ " + saucePrice;
+    document.getElementById('extrasPrice').innerHTML = "£ " + extrasPrice;
+    document.getElementById('totalPrice').innerHTML = "£ " + totalPrice;
+
+
+}
+
+
+//function which send information and call the end.html page 
+function endGame() {
+
+
+    if (state.timer == false) {
+        sessionStorage.setItem("gameResult", "GAME OVER");
+        sessionStorage.setItem("explication", "You are not out of the gardens before closing !");
+    }
+    else if (state.daughter == false && state.money == true) {
+        sessionStorage.setItem("gameResult", "GAME OVER");
+        sessionStorage.setItem("explication", "You left the gardens without your daughter !");
+    }
+    else if (state.money == false) {
+        sessionStorage.setItem("gameResult", "GAME OVER");
         sessionStorage.setItem("explication", "You have no more money to pay for a pass !");
     }
-    else{
-         sessionStorage.setItem("gameResult", "WINNER");
-         sessionStorage.setItem("explication", "Congratulations you and your daughter came out of the Royal Grove unscathed !");
+    else {
+        sessionStorage.setItem("gameResult", "YOU WIN");
+        sessionStorage.setItem("explication", "Congratulations you and your daughter came out of the Royal Grove unscathed !");
     }
-   
-   
+
+
 
     location.href = "end.html";
 }
